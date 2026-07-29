@@ -13,6 +13,7 @@ import { TenantsModule } from './modules/tenants/tenants.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
 import { UploadsModule } from './modules/uploads/uploads.module';
 import { PaymentsModule } from './modules/payments/payments.module';
+import { MercadoPagoModule } from './modules/mercadopago/mercadopago.module';
 import { ProceduresModule } from './modules/procedures/procedures.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { ProfessionalsModule } from './modules/professionals/professionals.module';
@@ -42,6 +43,7 @@ import { AppService } from './app.service';
     NotificationsModule,
     UploadsModule.register(),
     PaymentsModule,
+    MercadoPagoModule,
     ProceduresModule,
     RoomsModule,
     ProfessionalsModule,
