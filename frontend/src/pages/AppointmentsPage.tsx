@@ -13,6 +13,7 @@ export function AppointmentsPage() {
   const queryClient = useQueryClient();
   const [view, setView] = useState<'list' | 'calendar'>('list');
   const [statusFilter, setStatusFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modalMode, setModalMode] = useState<ModalMode>('create');
   const [calendarDate, setCalendarDate] = useState(new Date());
@@ -20,8 +21,6 @@ export function AppointmentsPage() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
-
-  const [patientSearch, setPatientSearch] = useState('');
 
   const [formData, setFormData] = useState({
     patientId: '', professionalId: '', roomId: '', procedureId: '',
@@ -39,9 +38,19 @@ export function AppointmentsPage() {
         .then((r) => r.data),
   });
 
+  const [patientSearch, setPatientSearch] = useState('');
+  const [searchTimeout, setSearchTimeout] = useState<any>(null);
+
   const { data: patientsData } = useQuery({
-    queryKey: ['patients', { limit: 500 }],
-    queryFn: () => api.get('/patients?limit=500').then((r) => r.data),
+    queryKey: ['patients-search', patientSearch],
+    queryFn: () => api.get(`/patients?search=${encodeURIComponent(patientSearch)}&limit=20`).then((r) => r.data),
+    enabled: patientSearch.length > 0,
+  });
+
+  const { data: allPatientsData } = useQuery({
+    queryKey: ['patients-all'],
+    queryFn: () => api.get('/patients?limit=200').then((r) => r.data),
+    enabled: patientSearch.length === 0,
   });
 
   const { data: professionalsData } = useQuery({
@@ -185,14 +194,22 @@ export function AppointmentsPage() {
     { value: 'CANCELLED', label: 'Cancelados' },
   ];
 
-  const patients: any[] = patientsData?.data || [];
-  const filteredPatients = patientSearch
-    ? patients.filter((p: any) => p.name.toLowerCase().includes(patientSearch.toLowerCase()) || (p.cpf || '').includes(patientSearch))
-    : patients;
+  const patients: any[] = patientSearch ? patientsData?.data || [] : allPatientsData?.data || [];
   const professionals: any[] = professionalsData?.data || [];
   const rooms: any[] = roomsData?.data || [];
   const procedures: any[] = proceduresData?.data || [];
   const appointments: any[] = data?.data || [];
+  const filteredAppointments = searchQuery
+    ? appointments.filter((apt: any) => {
+        const q = searchQuery.toLowerCase();
+        const patientName = (apt.patient?.name || '').toLowerCase();
+        const professionalName = (apt.professional?.name || '').toLowerCase();
+        const procedureName = (apt.procedure?.name || '').toLowerCase();
+        const dateStr = new Date(apt.startTime).toLocaleDateString('pt-BR');
+        const statusLabel = getStatusLabel(apt.status).toLowerCase();
+        return patientName.includes(q) || professionalName.includes(q) || procedureName.includes(q) || dateStr.includes(q) || statusLabel.includes(q);
+      })
+    : appointments;
 
   const calendarDays = useMemo(() => {
     const year = calendarDate.getFullYear();
@@ -264,8 +281,23 @@ export function AppointmentsPage() {
         </button>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Buscar pacientes, agendamentos..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+          />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+        <div className="flex gap-2 flex-wrap">
           {statusOptions.map((opt) => (
             <button
               key={opt.value}
@@ -301,7 +333,7 @@ export function AppointmentsPage() {
           <div className="py-12 text-center text-gray-400">Carregando...</div>
         ) : view === 'list' ? (
           <div className="divide-y">
-            {appointments.map((apt: any) => {
+            {filteredAppointments.map((apt: any) => {
               const statusActions = getStatusActions(apt);
               const isCancellable = apt.status !== 'COMPLETED' && apt.status !== 'CANCELLED';
               return (
@@ -389,9 +421,9 @@ export function AppointmentsPage() {
                 </div>
               );
             })}
-            {appointments.length === 0 && (
+            {filteredAppointments.length === 0 && (
               <div className="py-12 text-center text-sm text-gray-400">
-                Nenhum agendamento encontrado
+                {searchQuery ? 'Nenhum resultado encontrado para sua busca' : 'Nenhum agendamento encontrado'}
               </div>
             )}
           </div>
@@ -498,7 +530,11 @@ export function AppointmentsPage() {
                     type="text"
                     placeholder="Buscar paciente por nome ou CPF..."
                     value={patientSearch}
-                    onChange={(e) => setPatientSearch(e.target.value)}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      if (searchTimeout) clearTimeout(searchTimeout);
+                      setSearchTimeout(setTimeout(() => setPatientSearch(v), 300));
+                    }}
                     className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
                   />
                   {patientSearch && (
@@ -509,22 +545,18 @@ export function AppointmentsPage() {
                 </div>
                 <select
                   required
-                  size={Math.min(filteredPatients.length + 1, 8)}
                   value={formData.patientId}
                   onChange={(e) => { setFormData({ ...formData, patientId: e.target.value }); setPatientSearch(''); }}
                   className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
                 >
                   <option value="">Selecionar paciente...</option>
-                  {filteredPatients.map((p: any) => (
+                  {patients.map((p: any) => (
                     <option key={p.id} value={p.id}>{p.name} {p.cpf ? `(${p.cpf})` : ''}</option>
                   ))}
-                  {filteredPatients.length === 0 && patientSearch && (
+                  {patients.length === 0 && patientSearch && (
                     <option value="" disabled>Nenhum paciente encontrado</option>
                   )}
                 </select>
-                {patientSearch && (
-                  <p className="mt-1 text-xs text-gray-400">{filteredPatients.length} paciente{filteredPatients.length !== 1 ? 's' : ''} encontrado{filteredPatients.length !== 1 ? 's' : ''}</p>
-                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Profissional *</label>
