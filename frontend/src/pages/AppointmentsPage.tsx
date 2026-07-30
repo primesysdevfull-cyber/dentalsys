@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '../services/api';
 import { getStatusLabel, getStatusColor } from '../utils';
-import { Plus, Calendar as CalendarIcon, List, X, MessageCircle, ChevronLeft, ChevronRight, Pencil, Trash2, Clock, RotateCcw, CheckCircle2, Play } from 'lucide-react';
+import { Plus, Calendar as CalendarIcon, List, X, MessageCircle, ChevronLeft, ChevronRight, Pencil, Trash2, Clock, RotateCcw, CheckCircle2, Play, Search } from 'lucide-react';
 
 const WEEKDAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const MONTH_NAMES = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -20,6 +20,8 @@ export function AppointmentsPage() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [cancelTargetId, setCancelTargetId] = useState<string | null>(null);
+
+  const [patientSearch, setPatientSearch] = useState('');
 
   const [formData, setFormData] = useState({
     patientId: '', professionalId: '', roomId: '', procedureId: '',
@@ -143,7 +145,7 @@ export function AppointmentsPage() {
     setShowCancelModal(true);
   }
 
-  function closeModal() { setShowModal(false); setSelectedAppointment(null); }
+  function closeModal() { setShowModal(false); setSelectedAppointment(null); setPatientSearch(''); }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -184,6 +186,9 @@ export function AppointmentsPage() {
   ];
 
   const patients: any[] = patientsData?.data || [];
+  const filteredPatients = patientSearch
+    ? patients.filter((p: any) => p.name.toLowerCase().includes(patientSearch.toLowerCase()) || (p.cpf || '').includes(patientSearch))
+    : patients;
   const professionals: any[] = professionalsData?.data || [];
   const rooms: any[] = roomsData?.data || [];
   const procedures: any[] = proceduresData?.data || [];
@@ -487,12 +492,39 @@ export function AppointmentsPage() {
             <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Paciente *</label>
-                <select required value={formData.patientId} onChange={(e) => setFormData({ ...formData, patientId: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <div className="relative mt-1">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="Buscar paciente por nome ou CPF..."
+                    value={patientSearch}
+                    onChange={(e) => setPatientSearch(e.target.value)}
+                    className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                  />
+                  {patientSearch && (
+                    <button onClick={() => setPatientSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                      <X className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                </div>
+                <select
+                  required
+                  size={Math.min(filteredPatients.length + 1, 8)}
+                  value={formData.patientId}
+                  onChange={(e) => { setFormData({ ...formData, patientId: e.target.value }); setPatientSearch(''); }}
+                  className="mt-2 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                >
                   <option value="">Selecionar paciente...</option>
-                  {patients.map((p: any) => (
-                    <option key={p.id} value={p.id}>{p.name}</option>
+                  {filteredPatients.map((p: any) => (
+                    <option key={p.id} value={p.id}>{p.name} {p.cpf ? `(${p.cpf})` : ''}</option>
                   ))}
+                  {filteredPatients.length === 0 && patientSearch && (
+                    <option value="" disabled>Nenhum paciente encontrado</option>
+                  )}
                 </select>
+                {patientSearch && (
+                  <p className="mt-1 text-xs text-gray-400">{filteredPatients.length} paciente{filteredPatients.length !== 1 ? 's' : ''} encontrado{filteredPatients.length !== 1 ? 's' : ''}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Profissional *</label>
