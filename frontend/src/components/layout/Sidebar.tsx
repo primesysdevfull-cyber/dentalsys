@@ -43,6 +43,7 @@ const navCategories: NavCategory[] = [
     items: [
       { name: 'Financeiro', href: '/billing', icon: CreditCard },
       { name: 'Financeiro Avançado', href: '/financial-advanced', icon: TrendingUp },
+      { name: 'Pagamentos Online', href: '/payments', icon: DollarSign },
       { name: 'Convênios', href: '/insurances', icon: Building2 },
       { name: 'Comissões', href: '/professionals', icon: DollarSign },
       { name: 'NF-e / NFS-e', href: '/settings/nfe', icon: FileText },
@@ -71,11 +72,11 @@ const navCategories: NavCategory[] = [
 ];
 
 const roleAccess: Record<string, string[]> = {
-  ADMIN: ['/dashboard', '/notifications', '/reports', '/patients', '/appointments', '/scheduling', '/clinical-records', '/anamnesis', '/treatment-plans', '/billing', '/financial-advanced', '/insurances', '/settings/nfe', '/lab', '/inventory', '/procedures', '/professionals', '/rooms', '/users', '/ai', '/privacy', '/migration', '/settings'],
+  ADMIN: ['/dashboard', '/notifications', '/reports', '/patients', '/appointments', '/scheduling', '/clinical-records', '/anamnesis', '/treatment-plans', '/billing', '/financial-advanced', '/payments', '/insurances', '/settings/nfe', '/lab', '/inventory', '/procedures', '/professionals', '/rooms', '/users', '/ai', '/privacy', '/migration', '/settings'],
   DENTIST: ['/dashboard', '/notifications', '/patients', '/appointments', '/clinical-records', '/insurances', '/lab', '/procedures', '/professionals'],
   ASSISTANT: ['/dashboard', '/patients', '/appointments', '/lab', '/inventory', '/procedures', '/rooms', '/professionals'],
-  RECEPTIONIST: ['/dashboard', '/patients', '/appointments', '/scheduling', '/billing', '/insurances', '/procedures', '/rooms', '/professionals'],
-  FINANCIAL: ['/dashboard', '/billing', '/reports', '/insurances', '/settings/nfe'],
+  RECEPTIONIST: ['/dashboard', '/patients', '/appointments', '/scheduling', '/billing', '/payments', '/insurances', '/procedures', '/rooms', '/professionals'],
+  FINANCIAL: ['/dashboard', '/billing', '/payments', '/reports', '/insurances', '/settings/nfe'],
 };
 
 interface SidebarProps {
