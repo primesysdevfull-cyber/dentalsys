@@ -4,22 +4,11 @@ import api from '../services/api';
 import { formatCurrency, getStatusLabel, getStatusColor } from '../utils';
 import {
   Users, Calendar, DollarSign, AlertTriangle,
-  TrendingUp, TrendingDown, Clock, Percent,
-  UserPlus, BarChart3, PlusCircle,
+  TrendingUp, Clock, UserPlus, BarChart3, PlusCircle, ArrowUpRight,
 } from 'lucide-react';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid,
-  PieChart, Pie, Cell, ResponsiveContainer, LabelList,
+  BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, LabelList,
 } from 'recharts';
-
-const PIE_COLORS: Record<string, string> = {
-  SCHEDULED: '#3b82f6',
-  CONFIRMED: '#22c55e',
-  IN_PROGRESS: '#f59e0b',
-  COMPLETED: '#16a34a',
-  CANCELLED: '#ef4444',
-  NO_SHOW: '#f97316',
-};
 
 function getMonthName(m: number) {
   const names = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
@@ -60,201 +49,176 @@ export function DashboardPage() {
       .then((r) => r.data),
   });
 
-  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-  const { data: productivity } = useQuery({
-    queryKey: ['productivity', monthStart.toISOString(), endOfMonth.toISOString()],
-    queryFn: () => api
-      .get(`/reports/productivity?startDate=${monthStart.toISOString()}&endDate=${endOfMonth.toISOString()}`)
-      .then((r) => r.data),
-  });
-
   const cashFlowData = (cashFlow?.data || cashFlow || []).map((item: any) => ({
     name: getMonthName(new Date(item.month || item.date).getMonth()),
     income: item.income || item.revenue || 0,
     expense: item.expense || item.expenses || 0,
   }));
 
-  const statusData = (() => {
-    const raw = productivity?.statusBreakdown || productivity?.data?.statusBreakdown || productivity;
-    if (Array.isArray(raw)) return raw;
-    if (raw && typeof raw === 'object') {
-      return Object.entries(raw)
-        .filter(([key]) => ['SCHEDULED','CONFIRMED','IN_PROGRESS','COMPLETED','CANCELLED','NO_SHOW'].includes(key))
-        .map(([name, value]) => ({ name: getStatusLabel(name), value, status: name }));
-    }
-    return [];
-  })();
-
-  const totalStatus = statusData.reduce((s: number, d: any) => s + (d.value || 0), 0);
+  const appointments = todayAppointments?.data || [];
+  const appointmentsToday = todayAppointments?.meta?.total || 0;
 
   const stats = [
     {
       title: 'Receita do Mês',
       value: formatCurrency(billingDashboard?.revenue || 0),
       icon: DollarSign,
-      color: 'text-green-600',
-      bg: 'bg-green-100',
+      bgColor: 'bg-success-50',
+      iconColor: 'text-success-500',
+      variation: patientStats?.newThisMonth ? `+${patientStats.newThisMonth} este mês` : null,
+      variationColor: 'text-success-500',
     },
     {
       title: 'Pacientes Cadastrados',
       value: patientStats?.totalPatients || 0,
-      sub: `+${patientStats?.newThisMonth || 0} este mês`,
-      subColor: 'text-green-600',
       icon: Users,
-      color: 'text-blue-600',
-      bg: 'bg-blue-100',
+      bgColor: 'bg-primary-50',
+      iconColor: 'text-primary-600',
+      variation: patientStats?.newThisMonth ? `+${patientStats.newThisMonth} este mês` : null,
+      variationColor: 'text-primary-600',
     },
     {
       title: 'Agendamentos Hoje',
-      value: todayAppointments?.meta?.total || 0,
+      value: appointmentsToday,
       icon: Calendar,
-      color: 'text-dental-600',
-      bg: 'bg-dental-100',
+      bgColor: 'bg-success-50',
+      iconColor: 'text-success-500',
+      variation: null,
+      variationColor: 'text-gray-400',
     },
     {
       title: 'Inadimplência',
       value: formatCurrency(billingDashboard?.overdueAmount || 0),
-      sub: `${billingDashboard?.overdueCount || 0} pendências`,
-      subColor: 'text-red-600',
       icon: AlertTriangle,
-      color: 'text-red-600',
-      bg: 'bg-red-100',
+      bgColor: 'bg-warning-50',
+      iconColor: 'text-warning-500',
+      variation: `${billingDashboard?.overdueCount || 0} pendências`,
+      variationColor: 'text-warning-500',
     },
     {
       title: 'Comissões do Mês',
       value: formatCurrency(billingDashboard?.commissions || 0),
-      icon: Percent,
-      color: 'text-dental-600',
-      bg: 'bg-dental-100',
+      icon: TrendingUp,
+      bgColor: 'bg-primary-50',
+      iconColor: 'text-primary-600',
+      variation: null,
+      variationColor: 'text-gray-400',
     },
   ];
 
   const quickActions = [
-    { label: 'Novo Paciente', icon: UserPlus, route: '/patients' },
-    { label: 'Novo Agendamento', icon: Calendar, route: '/appointments' },
-    { label: 'Novo Lançamento Financeiro', icon: PlusCircle, route: '/billing' },
-    { label: 'Ver Relatórios Completos', icon: BarChart3, route: '/reports' },
+    { label: 'Novo Paciente', icon: UserPlus, route: '/patients', primary: true },
+    { label: 'Novo Agendamento', icon: Calendar, route: '/appointments', primary: true },
+    { label: 'Novo Lançamento', icon: PlusCircle, route: '/billing', primary: false },
+    { label: 'Relatórios', icon: BarChart3, route: '/reports', primary: false },
   ];
-
-  function handleNavigation(route: string) {
-    navigate(route);
-  }
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-400">Visão geral da clínica</p>
+        <h1 className="text-2xl font-bold text-[#1F2937]">Dashboard</h1>
+        <p className="text-sm text-[#6B7280]">Visão geral da clínica</p>
       </div>
 
-      {/* Cards de Resumo */}
+      {/* Cards de Indicadores */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
-          <div
-            key={stat.title}
-            className="flex items-start justify-between rounded-xl border bg-white p-5 shadow-sm"
-          >
+          <div key={stat.title} className="rounded-xl bg-white p-5 shadow-card flex items-center gap-4">
+            <div className={`h-12 w-12 rounded-full ${stat.bgColor} flex items-center justify-center shrink-0`}>
+              <stat.icon className={`h-6 w-6 ${stat.iconColor}`} />
+            </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">{stat.title}</p>
-              <p className="mt-1 text-xl font-bold text-gray-900 truncate">{stat.value}</p>
-              {stat.sub && (
-                <p className={`mt-0.5 text-xs font-medium ${stat.subColor || 'text-gray-400'}`}>
-                  {stat.sub}
-                </p>
-              )}
+              <p className="text-2xl font-bold text-[#1F2937] truncate">{stat.value}</p>
+              <p className="text-xs text-[#6B7280] mt-0.5">{stat.title}</p>
             </div>
-            <div className={`ml-3 flex h-10 w-10 items-center justify-center rounded-full ${stat.bg} flex-shrink-0`}>
-              <stat.icon className={`h-5 w-5 ${stat.color}`} />
-            </div>
+            {stat.variation && (
+              <div className="shrink-0">
+                <span className={`text-xs font-medium ${stat.variationColor}`}>{stat.variation}</span>
+              </div>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Gráficos lado a lado */}
+      {/* Gráfico + Status Agendamentos */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Receita vs Despesas */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-            Receita vs Despesas (12 meses)
-          </h3>
+        <div className="rounded-xl bg-white p-6 shadow-card">
+          <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Receita vs Despesas (12 meses)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={cashFlowData} barGap={0} barCategoryGap="20%">
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-              <XAxis dataKey="name" fontSize={11} tickLine={false} axisLine={false} tick={{ fill: '#94a3b8' }} />
-              <YAxis fontSize={11} tickLine={false} axisLine={false} tick={{ fill: '#94a3b8' }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+              <XAxis dataKey="name" fontSize={11} tickLine={false} axisLine={false} tick={{ fill: '#6B7280' }} />
+              <YAxis fontSize={11} tickLine={false} axisLine={false} tick={{ fill: '#6B7280' }} />
               <Tooltip
                 formatter={(value: any) => formatCurrency(Number(value))}
-                contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }}
+                contentStyle={{ borderRadius: 8, border: '1px solid #E5E7EB', fontSize: 12, boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
               />
-              <Legend
-                iconType="circle"
-                iconSize={8}
-                wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
-              />
-              <Bar dataKey="income" name="Receita" fill="#22c55e" radius={[4, 4, 0, 0]} maxBarSize={32}>
-                <LabelList dataKey="income" position="top" fontSize={10} fill="#22c55e" formatter={(v: any) => (Number(v) > 0 ? (Number(v) / 1000).toFixed(0) + 'k' : '') as any} />
+              <Bar dataKey="income" name="Receita" fill="#10B981" radius={[4, 4, 0, 0]} maxBarSize={32}>
+                <LabelList dataKey="income" position="top" fontSize={10} fill="#10B981" fontWeight={600} formatter={(v: any) => (Number(v) > 0 ? (Number(v) / 1000).toFixed(0) + 'k' : '') as any} />
               </Bar>
-              <Bar dataKey="expense" name="Despesa" fill="#ef4444" radius={[4, 4, 0, 0]} maxBarSize={32}>
-                <LabelList dataKey="expense" position="top" fontSize={10} fill="#ef4444" formatter={(v: any) => (Number(v) > 0 ? (Number(v) / 1000).toFixed(0) + 'k' : '') as any} />
+              <Bar dataKey="expense" name="Despesa" fill="#EF4444" radius={[4, 4, 0, 0]} maxBarSize={32}>
+                <LabelList dataKey="expense" position="top" fontSize={10} fill="#EF4444" fontWeight={600} formatter={(v: any) => (Number(v) > 0 ? (Number(v) / 1000).toFixed(0) + 'k' : '') as any} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Status dos Agendamentos */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-            Status dos Agendamentos (este mês)
-          </h3>
-          {totalStatus === 0 ? (
+        <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="flex items-center gap-2 mb-4">
+            <Calendar className="h-4 w-4 text-primary-600" />
+            <h3 className="text-sm font-semibold text-[#1F2937]">Status dos Agendamentos</h3>
+          </div>
+          {appointmentsToday === 0 ? (
             <div className="flex flex-col items-center justify-center h-[300px] text-center">
-              <Calendar className="h-10 w-10 text-gray-200 mb-3" />
-              <p className="text-sm font-medium text-gray-400">Nenhum agendamento registrado ainda</p>
-              <p className="text-xs text-gray-300 mt-1">Os dados aparecerão conforme os agendamentos forem criados</p>
+              <Calendar className="h-12 w-12 text-[#E5E7EB] mb-3" />
+              <p className="text-sm font-medium text-[#6B7280]">Nenhum agendamento registrado ainda.</p>
+              <p className="text-xs text-[#9CA3AF] mt-1 mb-4">Clique em Novo Agendamento para começar.</p>
+              <button
+                onClick={() => navigate('/appointments')}
+                className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-primary-700 transition-colors"
+              >
+                <Calendar className="h-4 w-4" />
+                Novo Agendamento
+              </button>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={statusData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  label={({ name, percent }: any) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
-                >
-                  {statusData.map((entry: any) => (
-                    <Cell key={entry.name} fill={PIE_COLORS[entry.status] || '#94a3b8'} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  formatter={(value: any) => `${value} agendamentos`}
-                  contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }}
-                />
-                <Legend
-                  iconType="circle"
-                  iconSize={8}
-                  wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            <div className="space-y-2">
+              {appointments.slice(0, 6).map((apt: any) => (
+                <div key={apt.id} className="flex items-center justify-between rounded-lg border border-[#E5E7EB] p-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="h-8 w-8 rounded-full shrink-0" style={{ backgroundColor: apt.professional?.color || '#2563EB' }} />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-[#1F2937] truncate">{apt.patient?.name}</p>
+                      <p className="text-xs text-[#6B7280] truncate">{apt.professional?.name} • {apt.procedure?.name || 'Consulta'}</p>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0 ml-3">
+                    <p className="text-sm font-medium text-[#1F2937]">{new Date(apt.startTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${getStatusColor(apt.status)}`}>{getStatusLabel(apt.status)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
       {/* Atalhos Rápidos */}
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wide">Atalhos Rápidos</h3>
+      <div className="rounded-xl bg-white p-6 shadow-card">
+        <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Atalhos Rápidos</h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {quickActions.map((action) => (
             <button
               key={action.label}
-              onClick={() => handleNavigation(action.route)}
-              className="flex items-center gap-3 rounded-xl border border-gray-100 px-4 py-3 transition-colors hover:bg-dental-50 hover:border-dental-200"
+              onClick={() => navigate(action.route)}
+              className={`flex items-center gap-3 rounded-lg px-5 py-3.5 text-sm font-semibold transition-all ${
+                action.primary
+                  ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-card'
+                  : 'border border-[#E5E7EB] text-primary-600 hover:bg-primary-50 hover:border-primary-200'
+              }`}
             >
-              <action.icon className="h-5 w-5 text-dental-600 flex-shrink-0" />
-              <span className="text-sm font-medium text-gray-600 leading-tight text-left">{action.label}</span>
+              <action.icon className={`h-5 w-5 ${action.primary ? 'text-white' : 'text-primary-600'} shrink-0`} />
+              <span className="text-left">{action.label}</span>
             </button>
           ))}
         </div>
@@ -262,127 +226,64 @@ export function DashboardPage() {
 
       {/* Próximos Agendamentos + Resumo Financeiro */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Próximos Agendamentos */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-            Próximos Agendamentos
-          </h3>
+        <div className="rounded-xl bg-white p-6 shadow-card">
+          <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Próximos Agendamentos</h3>
           <div className="space-y-2">
-            {todayAppointments?.data?.slice(0, 5).map((apt: any) => (
-              <div
-                key={apt.id}
-                className="flex items-center justify-between rounded-lg border border-gray-100 p-3"
-              >
+            {appointments.length > 0 ? appointments.slice(0, 5).map((apt: any) => (
+              <div key={apt.id} className="flex items-center justify-between rounded-lg bg-[#F9FAFB] px-4 py-3">
                 <div className="flex items-center gap-3 min-w-0">
-                  <div
-                    className="h-9 w-9 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: apt.professional?.color || '#3b82f6' }}
-                  />
+                  <div className="h-9 w-9 rounded-full shrink-0" style={{ backgroundColor: apt.professional?.color || '#2563EB' }} />
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{apt.patient?.name}</p>
-                    <p className="text-xs text-gray-400 truncate">
-                      {apt.professional?.name} • {apt.procedure?.name || 'Consulta'}
-                    </p>
+                    <p className="text-sm font-medium text-[#1F2937] truncate">{apt.patient?.name}</p>
+                    <p className="text-xs text-[#6B7280] truncate">{apt.professional?.name} • {apt.procedure?.name || 'Consulta'}</p>
                   </div>
                 </div>
-                <div className="text-right flex-shrink-0 ml-3">
-                  <p className="text-sm font-medium text-gray-900">
-                    {new Date(apt.startTime).toLocaleTimeString('pt-BR', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                  <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${getStatusColor(apt.status)}`}>
-                    {getStatusLabel(apt.status)}
-                  </span>
+                <div className="text-right shrink-0 ml-3">
+                  <p className="text-sm font-medium text-[#1F2937]">{new Date(apt.startTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+                  <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${getStatusColor(apt.status)}`}>{getStatusLabel(apt.status)}</span>
                 </div>
               </div>
-            ))}
-            {(!todayAppointments?.data || todayAppointments.data.length === 0) && (
-              <p className="py-8 text-center text-sm text-gray-400">
-                Nenhum agendamento para hoje
-              </p>
+            )) : (
+              <p className="py-8 text-center text-sm text-[#6B7280]">Nenhum agendamento para hoje</p>
             )}
           </div>
         </div>
 
-        {/* Resumo Financeiro */}
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="mb-4 text-sm font-semibold text-gray-900 uppercase tracking-wide">
-            Resumo Financeiro
-          </h3>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between rounded-lg bg-green-50 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <TrendingUp className="h-4 w-4 text-green-600" />
-                <div>
-                  <span className="text-sm font-medium text-green-800">Receitas Pagas</span>
-                  <p className="text-[10px] text-green-600">Recebido no mês</p>
-                </div>
+        <div className="rounded-xl bg-white p-6 shadow-card">
+          <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Resumo Financeiro</h3>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between rounded-lg bg-success-50 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-success-500" />
+                <span className="text-sm font-medium text-[#1F2937]">Receitas Pagas</span>
               </div>
-              <span className="text-sm font-bold text-green-700">
-                {formatCurrency(billingDashboard?.revenue || 0)}
-              </span>
+              <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.revenue || 0)}</span>
             </div>
-
-            <div className="flex items-center justify-between rounded-lg bg-yellow-50 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <Clock className="h-4 w-4 text-yellow-600" />
-                <div>
-                  <span className="text-sm font-medium text-yellow-800">A Receber</span>
-                  <p className="text-[10px] text-yellow-600">Pendente de pagamento</p>
-                </div>
+            <div className="flex items-center justify-between rounded-lg bg-warning-50 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-warning-500" />
+                <span className="text-sm font-medium text-[#1F2937]">A Receber</span>
               </div>
-              <span className="text-sm font-bold text-yellow-700">
-                {formatCurrency(billingDashboard?.pendingAmount || 0)}
-              </span>
+              <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.pendingAmount || 0)}</span>
             </div>
-
             <div className="flex items-center justify-between rounded-lg bg-red-50 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <AlertTriangle className="h-4 w-4 text-red-600" />
-                <div>
-                  <span className="text-sm font-medium text-red-800">Inadimplência</span>
-                  <p className="text-[10px] text-red-600">Valores em atraso</p>
-                </div>
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="h-4 w-4 text-red-500" />
+                <span className="text-sm font-medium text-[#1F2937]">Inadimplência</span>
               </div>
-              <span className="text-sm font-bold text-red-700">
-                {formatCurrency(billingDashboard?.overdueAmount || 0)}
-              </span>
+              <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.overdueAmount || 0)}</span>
             </div>
-
             <div className="flex items-center justify-between rounded-lg bg-red-50/50 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <TrendingDown className="h-4 w-4 text-red-600" />
-                <div>
-                  <span className="text-sm font-medium text-red-800">Despesas</span>
-                  <p className="text-[10px] text-red-600">Pagas no mês</p>
-                </div>
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-red-500" />
+                <span className="text-sm font-medium text-[#1F2937]">Despesas</span>
               </div>
-              <span className="text-sm font-bold text-red-700">
-                {formatCurrency(billingDashboard?.expenses || 0)}
-              </span>
+              <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.expenses || 0)}</span>
             </div>
-
-            <div className="flex items-center justify-between rounded-lg bg-indigo-50 px-4 py-3">
-              <div className="flex items-center gap-3">
-                <Percent className="h-4 w-4 text-indigo-600" />
-                <div>
-                  <span className="text-sm font-medium text-indigo-800">Comissões</span>
-                  <p className="text-[10px] text-indigo-600">Do mês atual</p>
-                </div>
-              </div>
-              <span className="text-sm font-bold text-indigo-700">
-                {formatCurrency(billingDashboard?.commissions || 0)}
-              </span>
-            </div>
-
-            <div className="border-t pt-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-gray-500">Lucro Líquido</span>
-                <span className="text-base font-bold text-gray-900">
-                  {formatCurrency(billingDashboard?.netProfit || 0)}
-                </span>
+            <div className="border-t border-[#E5E7EB] pt-3 mt-3">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-sm font-medium text-[#6B7280]">Lucro Líquido</span>
+                <span className="text-base font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.netProfit || 0)}</span>
               </div>
             </div>
           </div>
