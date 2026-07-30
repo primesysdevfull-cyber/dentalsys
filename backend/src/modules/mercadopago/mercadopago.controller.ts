@@ -38,10 +38,7 @@ export class MercadoPagoController {
   @ApiOperation({ summary: 'Webhook Mercado Pago' })
   @ApiQuery({ name: 'topic', required: false })
   @ApiQuery({ name: 'id', required: false })
-  async handleWebhook(
-    @Query() query: any,
-    @Body() body?: any,
-  ) {
+  async handleWebhook(@Query() query: any, @Body() body?: any) {
     return this.mercadopagoService.handleWebhook(query, body);
   }
 
@@ -51,8 +48,8 @@ export class MercadoPagoController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Consultar status de pagamento' })
   @ApiParam({ name: 'id', description: 'ID do pagamento no Mercado Pago' })
-  async getPaymentStatus(@Param('id') id: string) {
-    return this.mercadopagoService.getPaymentStatus(id);
+  async getPaymentStatus(@Param('id') id: string, @TenantId() tenantId: string) {
+    return this.mercadopagoService.getPaymentStatus(tenantId, id);
   }
 
   @Post('refund/:paymentId')
@@ -64,7 +61,8 @@ export class MercadoPagoController {
   async createRefund(
     @Param('paymentId') paymentId: string,
     @Body() body: { amount?: number },
+    @TenantId() tenantId: string,
   ) {
-    return this.mercadopagoService.createRefund(paymentId, body.amount);
+    return this.mercadopagoService.createRefund(tenantId, paymentId, body.amount);
   }
 }

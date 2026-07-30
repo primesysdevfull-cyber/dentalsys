@@ -9,32 +9,35 @@ import { MercadoPagoWebhookHandler } from './mercadopago.webhook';
 @Injectable()
 export class MercadoPagoService {
   private readonly logger = new Logger(MercadoPagoService.name);
-  private client: any = null;
+  private readonly clientCache = new Map<string, any>();
 
   constructor(
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
     private readonly webhookHandler: MercadoPagoWebhookHandler,
-  ) {
-    this.initClient();
+  ) {}
+
+  private async getClient(tenantId: string): Promise<any> {
+    const cached = this.clientCache.get(tenantId);
+    if (cached) return cached;
+
+    const tenant = await this.prisma.tenant.findUnique({
+      where: { id: tenantId },
+      select: { mercadopagoAccessToken: true },
+    });
+
+    if (!tenant?.mercadopagoAccessToken) {
+      throw new InternalServerErrorException('Token do Mercado Pago não configurado. Acesse Configurações > Mercado Pago para configurar.');
+    }
+
+    const { MercadoPagoConfig } = require('mercadopago');
+    const client = new MercadoPagoConfig({ accessToken: tenant.mercadopagoAccessToken });
+    this.clientCache.set(tenantId, client);
+    return client;
   }
 
-  private initClient() {
-    const accessToken = this.configService.get<string>('MERCADO_PAGO_ACCESS_TOKEN', '');
-    if (accessToken && accessToken.startsWith('APP_USR-')) {
-      const { MercadoPagoConfig } = require('mercadopago');
-      this.client = new MercadoPagoConfig({ accessToken });
-      this.logger.log('Mercado Pago client initialized');
-    } else {
-      this.logger.warn('MERCADO_PAGO_ACCESS_TOKEN not configured. Mercado Pago features disabled.');
-    }
-  }
-
-  private getClient(): any {
-    if (!this.client) {
-      throw new InternalServerErrorException('Mercado Pago não configurado. Configure MERCADO_PAGO_ACCESS_TOKEN.');
-    }
-    return this.client;
+  clearCache(tenantId: string) {
+    this.clientCache.delete(tenantId);
   }
 
   async createPreference(dto: CreateMpPreferenceDto, tenantId: string): Promise<any> {
@@ -59,8 +62,9 @@ export class MercadoPagoService {
     });
 
     try {
+      const client = await this.getClient(tenantId);
       const { Preference } = require('mercadopago');
-      const preferenceApi = new Preference(this.getClient());
+      const preferenceApi = new Preference(client);
       const preference = await preferenceApi.create({
         body: {
           items: [{
@@ -76,12 +80,12 @@ export class MercadoPagoService {
           },
           external_reference: transaction.id,
           back_urls: {
-            success: `${dto.email ? process.env.FRONTEND_URL || 'http://localhost:5173' : ''}/payments/success`,
-            failure: `${dto.email ? process.env.FRONTEND_URL || 'http://localhost:5173' : ''}/payments/failure`,
-            pending: `${dto.email ? process.env.FRONTEND_URL || 'http://localhost:5173' : ''}/payments/pending`,
+            success: `${process.env.APP_FRONTEND_URL || 'http://localhost:5173'}/payments/success`,
+            failure: `${process.env.APP_FRONTEND_URL || 'http://localhost:5173'}/payments/failure`,
+            pending: `${process.env.APP_FRONTEND_URL || 'http://localhost:5173'}/payments/pending`,
           },
           auto_return: 'approved',
-          notification_url: `${process.env.API_URL || 'http://localhost:3000'}/api/v1/mercadopago/webhook`,
+          notification_url: `${process.env.APP_URL || 'http://localhost:3000'}/api/v1/mercadopago/webhook`,
           payment_methods: {
             installments: 12,
           },
@@ -131,8 +135,9 @@ export class MercadoPagoService {
     }
 
     try {
+      const client = await this.getClient(tenantId);
       const { Payment } = require('mercadopago');
-      const paymentApi = new Payment(this.getClient());
+      const paymentApi = new Payment(client);
 
       const paymentData: any = {
         body: {
@@ -203,10 +208,11 @@ export class MercadoPagoService {
     }
   }
 
-  async getPaymentStatus(paymentId: string): Promise<any> {
+  async getPaymentStatus(tenantId: string, paymentId: string): Promise<any> {
     try {
+      const client = await this.getClient(tenantId);
       const { Payment } = require('mercadopago');
-      const paymentApi = new Payment(this.getClient());
+      const paymentApi = new Payment(client);
       const payment = await paymentApi.get({ id: paymentId });
 
       return {
@@ -227,10 +233,11 @@ export class MercadoPagoService {
     }
   }
 
-  async createRefund(paymentId: string, amount?: number): Promise<any> {
+  async createRefund(tenantId: string, paymentId: string, amount?: number): Promise<any> {
     try {
+      const client = await this.getClient(tenantId);
       const { Payment, Refund } = require('mercadopago');
-      const refundApi = new Refund(this.getClient());
+      const refundApi = new Refund(client);
       const refundData: any = { payment_id: paymentId };
       if (amount) refundData.amount = amount;
       const refund = await refundApi.create(refundData);
@@ -246,12 +253,7 @@ export class MercadoPagoService {
         });
       }
 
-      return {
-        id: refund.id,
-        status: refund.status,
-        amount: refund.amount,
-        paymentId,
-      };
+      return { id: refund.id, status: refund.status, amount: refund.amount, paymentId };
     } catch (error) {
       this.logger.error(`Failed to create refund: ${error.message}`);
       throw new InternalServerErrorException('Erro ao processar reembolso');

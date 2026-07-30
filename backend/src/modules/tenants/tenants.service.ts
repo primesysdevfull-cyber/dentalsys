@@ -48,6 +48,16 @@ export class TenantsService {
     });
   }
 
+  async updateMercadoPagoToken(id: string, mercadopagoAccessToken: string) {
+    const tenant = await this.prisma.tenant.findUnique({ where: { id } });
+    if (!tenant) throw new NotFoundException('Clínica não encontrada');
+    return this.prisma.tenant.update({
+      where: { id },
+      data: { mercadopagoAccessToken },
+      select: { id: true, name: true, mercadopagoAccessToken: true },
+    });
+  }
+
   async getSubscription(id: string) {
     const tenant = await this.prisma.tenant.findUnique({
       where: { id },

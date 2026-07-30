@@ -1,5 +1,12 @@
 import { Controller, Get, Put, Body, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiBearerAuth, ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional } from 'class-validator';
+
+class UpdateMpTokenDto {
+  @ApiProperty({ example: 'APP_USR-xxxx-xxxx' })
+  @IsString()
+  mercadopagoAccessToken: string;
+}
 import { TenantsService } from './tenants.service';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../../common/guards/roles.guard';
@@ -36,5 +43,11 @@ export class TenantsController {
   @ApiOperation({ summary: 'Obter assinatura da clínica' })
   getSubscription(@TenantId() tenantId: string) {
     return this.tenantsService.getSubscription(tenantId);
+  }
+
+  @Put('current/mercadopago-token')
+  @ApiOperation({ summary: 'Atualizar token do Mercado Pago da clínica' })
+  updateMercadoPagoToken(@TenantId() tenantId: string, @Body() dto: UpdateMpTokenDto) {
+    return this.tenantsService.updateMercadoPagoToken(tenantId, dto.mercadopagoAccessToken);
   }
 }

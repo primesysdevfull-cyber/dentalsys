@@ -23,6 +23,7 @@ model Tenant {
   state         String?
   zipCode       String?  @map("zip_code")
   logoUrl       String?  @map("logo_url")
+  mercadopagoAccessToken String? @map("mercadopago_access_token")
   settings      Json?    @default("{}")
   subscription  Json?    @default("{}")
   isActive      Boolean  @default(true) @map("is_active")

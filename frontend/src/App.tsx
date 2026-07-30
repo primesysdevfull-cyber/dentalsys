@@ -23,6 +23,7 @@ import { LabPage } from './pages/lab/LabPage';
 import { OnlineBookingPage } from './pages/OnlineBookingPage';
 import { PrivacyPage } from './pages/privacy/PrivacyPage';
 import { AiPage } from './pages/AiPage';
+import { MercadoPagoSettings } from './pages/settings/MercadoPagoSettings';
 import { MigrationPage } from './pages/MigrationPage';
 import { TreatmentPlansPage } from './pages/TreatmentPlansPage';
 import { AnamnesisPage } from './pages/AnamnesisPage';
@@ -96,6 +97,7 @@ export default function App() {
         <Route path="settings/whatsapp" element={<WhatsAppPage />} />
         <Route path="settings/appearance" element={<AppearancePage />} />
         <Route path="settings/nfe" element={<NfeSettingsPage />} />
+        <Route path="settings/mercadopago" element={<MercadoPagoSettings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

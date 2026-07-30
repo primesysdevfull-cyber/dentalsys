@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Settings, Building, Shield, Bell, Palette, FileText, Smartphone, MessageCircle } from 'lucide-react';
+import { Settings, Building, Shield, Bell, Palette, FileText, Smartphone, MessageCircle, CreditCard } from 'lucide-react';
 
 export function SettingsPage() {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ export function SettingsPage() {
     { title: 'WhatsApp', description: 'Configurar Evolution API / Z-API para disparo automático', icon: MessageCircle, href: '/settings/whatsapp', },
     { title: 'Aparência', description: 'Personalizar cores e temas do sistema', icon: Palette, href: '/settings/appearance', },
     { title: 'NF-e / NFS-e', description: 'Configurar Bling ou Tiny para emissão de notas fiscais', icon: FileText, href: '/settings/nfe', },
+    { title: 'Mercado Pago', description: 'Configurar token de pagamento online', icon: CreditCard, href: '/settings/mercadopago', },
   ];
 
   return (
