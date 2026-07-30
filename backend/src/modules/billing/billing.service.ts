@@ -54,6 +54,50 @@ export class BillingService {
     };
   }
 
+  async getPendingItems(tenantId: string, patientId: string) {
+    const plans = await this.prisma.treatmentPlan.findMany({
+      where: {
+        patientId,
+        tenantId,
+        status: { in: ['ACCEPTED', 'IN_PROGRESS'] },
+      },
+      include: {
+        items: {
+          include: { procedure: true },
+          orderBy: { order: 'asc' },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const items = [];
+    for (const plan of plans) {
+      for (const item of plan.items) {
+        const hasTransaction = await this.prisma.financialTransaction.findFirst({
+          where: {
+            tenantId,
+            patientId,
+            procedureId: item.procedureId || undefined,
+            notes: { contains: item.id },
+          },
+        });
+        if (!hasTransaction) {
+          items.push({
+            id: item.id,
+            treatmentPlanId: plan.id,
+            treatmentPlanTitle: plan.title,
+            procedureId: item.procedureId,
+            procedureName: item.procedure?.name || item.description || 'Procedimento',
+            description: item.description,
+            estimatedPrice: Number(item.estimatedPrice || 0),
+            toothNumber: item.toothNumber,
+          });
+        }
+      }
+    }
+    return items;
+  }
+
   async findOne(tenantId: string, id: string) {
     const transaction = await this.prisma.financialTransaction.findFirst({
       where: { id, tenantId },

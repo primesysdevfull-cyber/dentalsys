@@ -67,6 +67,13 @@ export class BillingController {
     return this.billingService.getDashboard(tenantId, startDate, endDate);
   }
 
+  @Get('pending-items/:patientId')
+  @Roles('ADMIN', 'FINANCIAL', 'RECEPTIONIST')
+  @ApiOperation({ summary: 'Itens pendentes de pagamento do paciente (planos aceitos/em andamento)' })
+  getPendingItems(@TenantId() tenantId: string, @Param('patientId') patientId: string) {
+    return this.billingService.getPendingItems(tenantId, patientId);
+  }
+
   @Get('accounts-receivable')
   @Roles('ADMIN', 'FINANCIAL')
   @ApiOperation({ summary: 'Contas a receber' })
