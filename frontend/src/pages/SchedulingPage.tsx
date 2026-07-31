@@ -158,17 +158,17 @@ export function SchedulingPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Agenda de Consultas</h1>
-        <p className="text-gray-500">Consulte a disponibilidade dos profissionais e agende horários</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Agenda de Consultas</h1>
+        <p className="text-gray-500 dark:text-gray-400">Consulte a disponibilidade dos profissionais e agende horários</p>
       </div>
 
       {/* Seletor de profissional */}
-      <div className="rounded-xl border bg-white shadow-sm">
-        <div className="border-b px-6 py-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-            Selecione o Profissional
-          </h2>
-        </div>
+      <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+<div className="border-b dark:border-gray-700 px-6 py-4">
+           <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+             Selecione o Profissional
+           </h2>
+         </div>
         <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {dentists.map((prof: any) => {
             const isSelected = prof.id === selectedProfId;
@@ -180,7 +180,7 @@ export function SchedulingPage() {
                 className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-center transition-all hover:shadow-md ${
                   isSelected
                     ? 'border-dental-500 bg-dental-50'
-                    : 'border-gray-100 hover:border-gray-200'
+                    : 'border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600'
                 }`}
               >
                 <div
@@ -190,11 +190,11 @@ export function SchedulingPage() {
                   {prof.name.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">{prof.name.split(' ')[0]}</p>
-                  <p className="text-xs text-gray-400">{prof.specialty || 'Dentista'}</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{prof.name.split(' ')[0]}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{prof.specialty || 'Dentista'}</p>
                 </div>
                 {maxDay && (
-                  <span className="text-[10px] font-medium text-gray-400">
+                  <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500">
                     Máx. {maxDay}/dia
                   </span>
                 )}
@@ -202,7 +202,7 @@ export function SchedulingPage() {
             );
           })}
           {dentists.length === 0 && (
-            <p className="col-span-full py-8 text-center text-sm text-gray-400">
+            <p className="col-span-full py-8 text-center text-sm text-gray-400 dark:text-gray-500">
               Nenhum profissional cadastrado
             </p>
           )}
@@ -212,13 +212,13 @@ export function SchedulingPage() {
       {selectedProfId && (
         <>
           {/* Cabeçalho data + resumo */}
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-white px-6 py-4 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-6 py-4 shadow-sm">
             <div className="flex items-center gap-3">
               <Calendar className="h-5 w-5 text-dental-600" />
               <div className="flex items-center gap-2">
                 <button
                   onClick={prevDate}
-                  className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100"
+                  className="rounded-lg p-1.5 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
@@ -226,11 +226,11 @@ export function SchedulingPage() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="rounded-lg border border-gray-200 px-3 py-1.5 text-sm font-medium text-gray-900 focus:border-dental-500 focus:outline-none"
+                  className="rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-1.5 text-sm font-medium text-gray-900 focus:border-dental-500 dark:focus:border-primary focus:outline-none"
                 />
                 <button
                   onClick={nextDate}
-                  className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100"
+                  className="rounded-lg p-1.5 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -239,11 +239,11 @@ export function SchedulingPage() {
 
             {slotsData && (
               <div className="flex items-center gap-3 text-sm flex-wrap">
-                <span className="text-gray-500">
+                <span className="text-gray-500 dark:text-gray-400">
                   {dayAppointments.length} consulta(s) agendada(s)
                 </span>
                 {slotsData.maxAppointmentsPerDay && (
-                  <span className="text-gray-500">
+                  <span className="text-gray-500 dark:text-gray-400">
                     {' '}/ {slotsData.maxAppointmentsPerDay} limite
                   </span>
                 )}
@@ -261,17 +261,17 @@ export function SchedulingPage() {
           </div>
 
           {/* Timeline do dia */}
-          <div className="rounded-xl border bg-white shadow-sm">
-            <div className="border-b px-6 py-3">
-              <h3 className="text-sm font-semibold text-gray-700">
+          <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+<div className="border-b dark:border-gray-700 px-6 py-3">
+               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-400">
                 Agenda de {selectedProf?.name} — {displayDate}
               </h3>
             </div>
 
             {slotsLoading ? (
-              <div className="py-12 text-center text-sm text-gray-400">Carregando...</div>
+              <div className="py-12 text-center text-sm text-gray-400 dark:text-gray-500">Carregando...</div>
             ) : (
-              <div className="divide-y">
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
                 {HOURS.map((hour) => {
                   const apts = appointmentsByHour[hour] || [];
                   const freeSlots = getSlotsForHour(hour);
@@ -283,8 +283,8 @@ export function SchedulingPage() {
                       className={`flex ${hasContent ? '' : 'opacity-40'}`}
                     >
                       {/* Rótulo da hora */}
-                      <div className="flex w-20 flex-shrink-0 items-start justify-center border-r py-3">
-                        <span className="text-xs font-medium text-gray-400">
+                      <div className="flex w-20 flex-shrink-0 items-start justify-center border-r border-gray-200 dark:border-gray-700 py-3">
+                        <span className="text-xs font-medium text-gray-400 dark:text-gray-500">
                           {String(hour).padStart(2, '0')}:00
                         </span>
                       </div>
@@ -330,10 +330,10 @@ export function SchedulingPage() {
       {/* Modal de agendamento rápido */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="mx-4 w-full max-w-md rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">Agendar Consulta</h2>
-              <button onClick={closeModal} className="rounded p-1 text-gray-400 hover:bg-gray-100">
+          <div className="mx-4 w-full max-w-md rounded-xl bg-white dark:bg-gray-900 shadow-2xl">
+<div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
+               <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Agendar Consulta</h2>
+              <button onClick={closeModal} className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -353,15 +353,15 @@ export function SchedulingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Paciente *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Paciente *</label>
                 <div className="relative mt-1">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
                   <input
                     type="text"
                     placeholder="Buscar paciente..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 pl-9 pr-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary"
                   />
                 </div>
                 <select
@@ -369,7 +369,7 @@ export function SchedulingPage() {
                   size={4}
                   value={bookPatientId}
                   onChange={(e) => setBookPatientId(e.target.value)}
-                  className="mt-2 w-full rounded-lg border border-gray-200 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                  className="mt-2 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary"
                 >
                   <option value="">Selecionar paciente...</option>
                   {filteredPatients.map((p: any) => (
@@ -381,11 +381,11 @@ export function SchedulingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Procedimento</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Procedimento</label>
                 <select
                   value={bookProcedureId}
                   onChange={(e) => setBookProcedureId(e.target.value)}
-                  className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                  className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary"
                 >
                   <option value="">Nenhum (consulta padrão)</option>
                   {procedures.map((p: any) => (
@@ -396,11 +396,11 @@ export function SchedulingPage() {
                 </select>
               </div>
 
-              <div className="flex justify-end gap-3 border-t pt-4">
+              <div className="flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                  className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Cancelar
                 </button>

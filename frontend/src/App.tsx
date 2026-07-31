@@ -28,6 +28,9 @@ import { MigrationPage } from './pages/MigrationPage';
 import { TreatmentPlansPage } from './pages/TreatmentPlansPage';
 import { AnamnesisPage } from './pages/AnamnesisPage';
 import { FinancialAdvancedPage } from './pages/FinancialAdvancedPage';
+import { RecallPage } from './pages/RecallPage';
+import { CashFlowPage } from './pages/CashFlowPage';
+import { CommissionsPage } from './pages/CommissionsPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { ClinicDataPage } from './pages/settings/ClinicDataPage';
 import { SecurityPage } from './pages/settings/SecurityPage';
@@ -88,6 +91,9 @@ export default function App() {
         <Route path="treatment-plans" element={<TreatmentPlansPage />} />
         <Route path="anamnesis" element={<AnamnesisPage />} />
         <Route path="financial-advanced" element={<FinancialAdvancedPage />} />
+        <Route path="recall" element={<RecallPage />} />
+        <Route path="cash-flow" element={<CashFlowPage />} />
+        <Route path="commissions" element={<CommissionsPage />} />
         <Route path="notifications" element={<NotificationsPage />} />
         <Route path="payments/*" element={<PaymentsPage />} />
         <Route path="settings" element={<SettingsPage />} />

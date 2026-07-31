@@ -53,13 +53,13 @@ function getTypeLabel(type: string): string {
 
 function getTypeColor(type: string): string {
   const colors: Record<string, string> = {
-    APPOINTMENT_CONFIRMATION: 'bg-blue-50 text-blue-600',
-    APPOINTMENT_REMINDER: 'bg-amber-50 text-amber-600',
-    PAYMENT_DUE: 'bg-red-50 text-red-600',
-    PAYMENT_RECEIVED: 'bg-green-50 text-green-600',
-    SYSTEM: 'bg-gray-50 text-gray-600',
+    APPOINTMENT_CONFIRMATION: 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400',
+    APPOINTMENT_REMINDER: 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400',
+    PAYMENT_DUE: 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400',
+    PAYMENT_RECEIVED: 'bg-green-50 text-green-600 dark:bg-success-500/10 dark:text-success-400',
+    SYSTEM: 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200',
   };
-  return colors[type] || 'bg-gray-50 text-gray-600';
+  return colors[type] || 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-200';
 }
 
 interface Notification {
@@ -157,8 +157,8 @@ export function NotificationsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Notificações</h1>
-          <p className="text-gray-500">Central de notificações e lembretes</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Notificações</h1>
+          <p className="text-gray-500 dark:text-gray-400">Central de notificações e lembretes</p>
         </div>
         <button
           onClick={() => setShowSendPanel(!showSendPanel)}
@@ -170,36 +170,36 @@ export function NotificationsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-blue-50 p-2">
-              <Bell className="h-5 w-5 text-blue-600" />
+            <div className="rounded-lg bg-blue-50 dark:bg-blue-500/10">
+              <Bell className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Total</p>
-              <p className="text-lg font-bold text-gray-900">{stats?.total ?? 0}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Total</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{stats?.total ?? 0}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-amber-50 p-2">
-              <Bell className="h-5 w-5 text-amber-600" />
+            <div className="rounded-lg bg-amber-50 dark:bg-amber-500/10">
+              <Bell className="h-5 w-5 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Não Lidas</p>
-              <p className="text-lg font-bold text-gray-900">{stats?.unread ?? 0}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Não Lidas</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{stats?.unread ?? 0}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="rounded-lg bg-green-50 p-2">
-              <Bell className="h-5 w-5 text-green-600" />
+            <div className="rounded-lg bg-green-50 dark:bg-success-500/10">
+              <Bell className="h-5 w-5 text-green-600 dark:text-success-400" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Hoje</p>
-              <p className="text-lg font-bold text-gray-900">{stats?.today ?? 0}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Hoje</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{stats?.today ?? 0}</p>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@ export function NotificationsPage() {
               key={String(unread)}
               onClick={() => setUnreadOnly(unread)}
               className={`rounded-lg px-3 py-1.5 text-sm ${
-                unreadOnly === unread ? 'bg-dental-100 text-dental-700 font-medium' : 'text-gray-500 hover:bg-gray-100'
+                unreadOnly === unread ? 'bg-dental-100 text-dental-700 dark:bg-dental-500/15 dark:text-dental-300 font-medium' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               {unread ? 'Não Lidas' : 'Todas'}
@@ -222,27 +222,27 @@ export function NotificationsPage() {
         <button
           onClick={() => markAllAsReadMutation.mutate()}
           disabled={markAllAsReadMutation.isPending || (stats?.unread ?? 0) === 0}
-          className="flex items-center gap-2 rounded-lg border border-dental-200 px-4 py-2 text-sm font-medium text-dental-700 hover:bg-dental-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 rounded-lg border border-dental-200 dark:border-dental-500/30 px-4 py-2 text-sm font-medium text-dental-700 dark:text-dental-300 hover:bg-dental-50 dark:hover:bg-dental-500/10 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <CheckCheck className="h-4 w-4" />
           {markAllAsReadMutation.isPending ? 'Marcando...' : 'Marcar todas como lidas'}
         </button>
       </div>
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-6 w-6 animate-spin text-dental-600" />
           </div>
         ) : !notifications?.data || notifications.data.length === 0 ? (
           <div className="py-12 text-center">
-            <Bell className="mx-auto h-12 w-12 text-gray-300" />
-            <p className="mt-3 text-sm text-gray-400">
+            <Bell className="mx-auto h-12 w-12 text-gray-300 dark:text-gray-600" />
+            <p className="mt-3 text-sm text-gray-400 dark:text-gray-500">
               {unreadOnly ? 'Nenhuma notificação não lida' : 'Nenhuma notificação encontrada'}
             </p>
           </div>
         ) : (
-          <ul className="divide-y">
+          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {notifications.data.map((n: Notification) => {
               const Icon = getNotificationIcon(n.type);
               return (
@@ -250,7 +250,7 @@ export function NotificationsPage() {
                   key={n.id}
                   onClick={() => !n.isRead && handleMarkAsRead(n.id)}
                   className={`flex items-start gap-4 px-6 py-4 transition-colors ${
-                    !n.isRead ? 'bg-dental-50/50 cursor-pointer hover:bg-dental-100/50' : 'hover:bg-gray-50'
+                    !n.isRead ? 'bg-dental-50/50 dark:bg-dental-500/10 cursor-pointer hover:bg-dental-100/50 dark:hover:bg-dental-500/15' : 'hover:bg-gray-50 dark:hover:bg-gray-800'
                   }`}
                 >
                   {!n.isRead && (
@@ -263,12 +263,12 @@ export function NotificationsPage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className={`text-sm ${!n.isRead ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
+                        <p className={`text-sm ${!n.isRead ? 'font-semibold text-gray-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300'}`}>
                           {n.title}
                         </p>
-                        <p className="mt-0.5 text-sm text-gray-500 line-clamp-2">{n.message}</p>
+                        <p className="mt-0.5 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">{n.message}</p>
                       </div>
-                      <span className="shrink-0 text-xs text-gray-400">{getRelativeTime(n.createdAt)}</span>
+                      <span className="shrink-0 text-xs text-gray-400 dark:text-gray-500">{getRelativeTime(n.createdAt)}</span>
                     </div>
                     <div className="mt-2 flex items-center gap-2">
                       <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${getTypeColor(n.type)}`}>
@@ -277,7 +277,7 @@ export function NotificationsPage() {
                       {n.sentVia?.map((via: string) => (
                         <span
                           key={via}
-                          className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600"
+                          className="inline-flex items-center gap-1 rounded-full bg-dental-50 dark:bg-dental-500/10 px-2 py-0.5 text-xs font-medium text-dental-700 dark:text-dental-300"
                         >
                           {via === 'WHATSAPP' && <MessageSquare className="h-3 w-3" />}
                           {via === 'EMAIL' && <Mail className="h-3 w-3" />}
@@ -295,22 +295,22 @@ export function NotificationsPage() {
       </div>
 
       {showSendPanel && (
-        <div className="rounded-xl border bg-white shadow-sm">
-          <div className="border-b px-6 py-4">
-            <h2 className="text-lg font-semibold text-gray-900">Enviar Notificação Manual</h2>
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+          <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Enviar Notificação Manual</h2>
           </div>
           <div className="space-y-6 p-6">
             <div>
-              <h3 className="mb-3 text-sm font-medium text-gray-700">Agendamento</h3>
+              <h3 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">Agendamento</h3>
               <div className="flex flex-wrap items-end gap-3">
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-gray-500 mb-1">ID do Agendamento</label>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">ID do Agendamento</label>
                   <input
                     type="text"
                     value={appointmentId}
                     onChange={(e) => setAppointmentId(e.target.value)}
                     placeholder="Digite o ID do agendamento"
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
                   />
                 </div>
                 <button
@@ -332,16 +332,16 @@ export function NotificationsPage() {
               </div>
             </div>
             <div>
-              <h3 className="mb-3 text-sm font-medium text-gray-700">Pagamento</h3>
+              <h3 className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">Pagamento</h3>
               <div className="flex flex-wrap items-end gap-3">
                 <div className="flex-1">
-                  <label className="block text-xs font-medium text-gray-500 mb-1">ID da Transação</label>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">ID da Transação</label>
                   <input
                     type="text"
                     value={transactionId}
                     onChange={(e) => setTransactionId(e.target.value)}
                     placeholder="Digite o ID da transação"
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
                   />
                 </div>
                 <button

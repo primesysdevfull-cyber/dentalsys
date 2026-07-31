@@ -45,6 +45,9 @@ model Tenant {
   privacyConsents PrivacyConsent[]
   dataExportRequests DataExportRequest[]
   labOrders     LabOrder[]
+  commissions   Commission[]
+  dailyClosures DailyClosure[]
+  recallCampaigns RecallCampaign[]
   aiTranscriptions AiTranscription[]
   migrationLogs MigrationLog[]
 
@@ -114,6 +117,8 @@ model Professional {
   roomAssignments RoomAssignment[]
   financialTransactions FinancialTransaction[]
   labOrders     LabOrder[]
+  commissions   Commission[]
+  treatmentPlans TreatmentPlan[]
 
   @@map("professionals")
 }
@@ -216,6 +221,7 @@ model Patient {
   privacyConsents PrivacyConsent[]
   dataExportRequests DataExportRequest[]
   labOrders      LabOrder[]
+  recallLogs     RecallLog[]
 
   @@index([tenantId, cpf])
   @@index([tenantId, name])
@@ -489,12 +495,16 @@ model TreatmentPlan {
   tenant      Tenant     @relation(fields: [tenantId], references: [id])
   patientId   String     @map("patient_id")
   patient     Patient    @relation(fields: [patientId], references: [id])
+  professionalId String? @map("professional_id")
+  professional Professional? @relation(fields: [professionalId], references: [id])
   title       String
   description String?    @db.Text
   status      PlanStatus @default(PROPOSED)
   totalEstimate Decimal? @map("total_estimate") @db.Decimal(10, 2)
   startDate   DateTime?  @map("start_date")
   estimatedEndDate DateTime? @map("estimated_end_date")
+  validUntil  DateTime?  @map("valid_until")
+  notes       String?    @db.Text
   completedAt DateTime?  @map("completed_at")
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
@@ -515,6 +525,7 @@ model TreatmentPlanItem {
   toothNumber     Int?          @map("tooth_number")
   description     String?
   estimatedPrice  Decimal?      @map("estimated_price") @db.Decimal(10, 2)
+  quantity        Int           @default(1)
   status          PlanStatus    @default(PROPOSED)
   order           Int           @default(0)
   createdAt       DateTime      @default(now()) @map("created_at")
@@ -581,6 +592,7 @@ model FinancialTransaction {
   updatedAt       DateTime          @updatedAt @map("updated_at")
 
   installments    Installment[]
+  commissions     Commission[]
   nfeInvoices     NfeInvoice[]
 
   @@index([tenantId, status])
@@ -602,6 +614,124 @@ model Installment {
 
   @@map("installments")
   @@index([transactionId])
+}
+
+// ============================================================
+// COMISSÕES DE PROFISSIONAIS
+// ============================================================
+
+enum CommissionStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model Commission {
+  id              String           @id @default(uuid())
+  tenantId        String           @map("tenant_id")
+  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  professionalId  String           @map("professional_id")
+  professional    Professional     @relation(fields: [professionalId], references: [id])
+  transactionId   String?          @map("transaction_id")
+  transaction     FinancialTransaction? @relation(fields: [transactionId], references: [id])
+  appointmentId   String?          @map("appointment_id")
+  description     String
+  amount          Decimal          @db.Decimal(10, 2)
+  rate            Decimal          @db.Decimal(5, 2)
+  commissionAmount Decimal          @map("commission_amount") @db.Decimal(10, 2)
+  status          CommissionStatus @default(PENDING)
+  paidAt          DateTime?        @map("paid_at")
+  paidByUserId    String?          @map("paid_by_user_id")
+  notes           String?          @db.Text
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+
+  @@index([tenantId, professionalId])
+  @@index([tenantId, status])
+  @@index([professionalId, status])
+  @@map("commissions")
+}
+
+// ============================================================
+// FLUXO DE CAIXA / FECHAMENTO DIÁRIO
+// ============================================================
+
+model DailyClosure {
+  id              String   @id @default(uuid())
+  tenantId        String   @map("tenant_id")
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  closureDate     DateTime @map("closure_date")
+  totalIncome     Decimal  @map("total_income") @db.Decimal(12, 2)
+  totalExpense    Decimal  @map("total_expense") @db.Decimal(12, 2)
+  balance         Decimal  @db.Decimal(12, 2)
+  transactionCount Int     @map("transaction_count")
+  closedById      String   @map("closed_by_id")
+  closedAt        DateTime @default(now()) @map("closed_at")
+  notes           String?  @db.Text
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@unique([tenantId, closureDate])
+  @@index([tenantId, closureDate])
+  @@map("daily_closures")
+}
+
+// ============================================================
+// RECALL / CAMPANHAS AUTOMÁTICAS
+// ============================================================
+
+enum RecallType {
+  ABSENT
+  BIRTHDAY
+  INCOMPLETE_TREATMENT
+  CUSTOM
+}
+
+enum CampaignStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum RecallLogStatus {
+  SENT
+  FAILED
+  SKIPPED
+}
+
+model RecallCampaign {
+  id          String         @id @default(uuid())
+  tenantId    String         @map("tenant_id")
+  tenant      Tenant         @relation(fields: [tenantId], references: [id])
+  name        String
+  type        RecallType
+  config      Json           @default("{}")
+  message     String         @db.Text
+  channel     String         @default("WHATSAPP")
+  status      CampaignStatus @default(ACTIVE)
+  lastRunAt   DateTime?      @map("last_run_at")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  logs        RecallLog[]
+
+  @@index([tenantId, status])
+  @@map("recall_campaigns")
+}
+
+model RecallLog {
+  id            String          @id @default(uuid())
+  campaignId    String          @map("campaign_id")
+  campaign      RecallCampaign  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  patientId     String          @map("patient_id")
+  patient       Patient         @relation(fields: [patientId], references: [id])
+  sentAt        DateTime        @default(now()) @map("sent_at")
+  status        RecallLogStatus
+  channel       String          @default("WHATSAPP")
+  error         String?         @db.Text
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  @@index([campaignId])
+  @@index([patientId])
+  @@map("recall_logs")
 }
 
 // ============================================================

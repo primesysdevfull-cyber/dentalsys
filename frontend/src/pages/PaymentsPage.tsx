@@ -76,8 +76,8 @@ export function PaymentsPage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-8 w-8 text-green-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
+            <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
           </div>
           <h2 className="text-2xl font-bold text-[#1F2937]">Pagamento Confirmado!</h2>
           <p className="mt-2 text-[#6B7280]">Pagamento processado com sucesso.</p>
@@ -94,8 +94,8 @@ export function PaymentsPage() {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
         <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <XCircle className="h-8 w-8 text-red-600" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 dark:bg-red-900">
+            <XCircle className="h-8 w-8 text-red-600 dark:text-red-400" />
           </div>
           <h2 className="text-2xl font-bold text-[#1F2937]">Pagamento Cancelado</h2>
           <p className="mt-2 text-[#6B7280]">O pagamento não foi concluído.</p>
@@ -214,12 +214,12 @@ export function PaymentsPage() {
       </div>
 
       {/* Seleção de paciente */}
-      <div className="rounded-xl bg-white p-6 shadow-card">
+      <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
         <label className="block text-sm font-medium text-[#1F2937] mb-2">Paciente</label>
         <select
           value={selectedPatient}
           onChange={e => { setSelectedPatient(e.target.value); setSelectedItems(new Set()); setPaymentResult(null); }}
-          className="w-full max-w-lg rounded-lg border border-[#E5E7EB] px-3 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
+          className="w-full max-w-lg rounded-lg border border-[#E5E7EB] px-3 py-2.5 text-sm focus:border-primary-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary"
         >
           <option value="">Selecione um paciente</option>
           {patients.map((p: any) => (
@@ -230,7 +230,7 @@ export function PaymentsPage() {
 
       {/* Itens pendentes */}
       {selectedPatient && (
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ShoppingCart className="h-5 w-5 text-primary-600" />
@@ -282,7 +282,7 @@ export function PaymentsPage() {
                               type="checkbox"
                               checked={selectedItems.has(item.id)}
                               onChange={() => toggleItem(item.id)}
-                              className="h-4 w-4 rounded border-[#D1D5DB] text-primary-600 focus:ring-primary-500"
+                              className="h-4 w-4 rounded border-[#D1D5DB] text-primary-600 focus:ring-primary-500 dark:focus:ring-primary"
                             />
                             <div className="min-w-0">
                               <p className="text-sm font-medium text-[#1F2937]">{item.procedureName}</p>
@@ -318,7 +318,7 @@ export function PaymentsPage() {
 
       {/* Métodos de pagamento */}
       {selectedPatient && totalSelected > 0 && (
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <div className="flex gap-2 border-b border-[#E5E7EB] mb-4">
             <button onClick={() => setActiveTab('mercadopago')} className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'mercadopago' ? 'border-primary-600 text-primary-600' : 'border-transparent text-[#6B7280] hover:text-[#1F2937]'}`}>
               Mercado Pago
@@ -332,7 +332,7 @@ export function PaymentsPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-[#1F2937] mb-1">CPF do paciente</label>
-                <input type="text" value={cpf} onChange={e => setCpf(e.target.value)} placeholder="123.456.789-00" className="w-full max-w-xs rounded-lg border border-[#E5E7EB] px-3 py-2 text-sm focus:border-primary-500 focus:outline-none" />
+                <input type="text" value={cpf} onChange={e => setCpf(e.target.value)} placeholder="123.456.789-00" className="w-full max-w-xs rounded-lg border border-[#E5E7EB] px-3 py-2 text-sm focus:border-primary-500 dark:focus:border-primary focus:outline-none" />
               </div>
               <div className="flex flex-wrap gap-3">
                 <button onClick={handleMpCheckout} disabled={processing} className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white hover:bg-primary-700 disabled:opacity-50">
@@ -361,7 +361,7 @@ export function PaymentsPage() {
 
       {/* Resultado do pagamento (PIX) */}
       {paymentResult?.qrCodeImage && (
-        <div className="rounded-xl bg-white p-6 shadow-card space-y-4">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card space-y-4">
           <h3 className="text-base font-semibold text-[#1F2937] flex items-center gap-2">
             <QrCode className="h-5 w-5 text-success-500" /> Pagamento PIX Gerado
           </h3>
@@ -372,7 +372,7 @@ export function PaymentsPage() {
             <div className="p-3 bg-[#F9FAFB] rounded-lg">
               <p className="text-xs font-medium text-[#6B7280] mb-1">Código PIX (copia e cola):</p>
               <div className="flex gap-2">
-                <input readOnly value={paymentResult.qrCode} className="flex-1 text-xs border border-[#E5E7EB] rounded px-2 py-1 bg-white" />
+                <input readOnly value={paymentResult.qrCode} className="flex-1 text-xs border border-[#E5E7EB] rounded px-2 py-1 bg-white dark:bg-gray-900" />
                 <button onClick={() => copyToClipboard(paymentResult.qrCode)} className="flex items-center gap-1 px-3 py-1 bg-primary-600 text-white text-xs rounded hover:bg-primary-700">
                   <Copy className="h-3 w-3" /> {copied ? 'Copiado!' : 'Copiar'}
                 </button>
@@ -387,7 +387,7 @@ export function PaymentsPage() {
 
       {/* Resultado do pagamento (Boleto) */}
       {paymentResult?.boletoUrl && (
-        <div className="rounded-xl bg-white p-6 shadow-card space-y-4">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card space-y-4">
           <h3 className="text-base font-semibold text-[#1F2937] flex items-center gap-2">
             <Barcode className="h-5 w-5 text-warning-500" /> Boleto Gerado
           </h3>
@@ -405,7 +405,7 @@ export function PaymentsPage() {
 
       {/* Resultado preferência (Checkout Pro) */}
       {paymentResult?.initPoint && !paymentResult?.qrCodeImage && !paymentResult?.boletoUrl && (
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <p className="text-sm text-primary-700">Preferência criada. ID: {paymentResult.preferenceId}</p>
           <a href={paymentResult.initPoint} target="_blank" rel="noopener noreferrer" className="text-sm text-primary-600 hover:underline">Abrir página de pagamento</a>
         </div>

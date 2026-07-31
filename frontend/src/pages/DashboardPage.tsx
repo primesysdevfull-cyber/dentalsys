@@ -84,7 +84,7 @@ export function DashboardPage() {
       bgColor: 'bg-success-50',
       iconColor: 'text-success-500',
       variation: null,
-      variationColor: 'text-gray-400',
+      variationColor: 'text-gray-400 dark:text-gray-500',
     },
     {
       title: 'Inadimplência',
@@ -102,7 +102,7 @@ export function DashboardPage() {
       bgColor: 'bg-primary-50',
       iconColor: 'text-primary-600',
       variation: null,
-      variationColor: 'text-gray-400',
+      variationColor: 'text-gray-400 dark:text-gray-500',
     },
   ];
 
@@ -123,7 +123,7 @@ export function DashboardPage() {
       {/* Cards de Indicadores */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
-          <div key={stat.title} className="rounded-xl bg-white p-5 shadow-card flex items-center gap-4">
+          <div key={stat.title} className="rounded-xl bg-white dark:bg-gray-900 p-5 shadow-card flex items-center gap-4">
             <div className={`h-12 w-12 rounded-full ${stat.bgColor} flex items-center justify-center shrink-0`}>
               <stat.icon className={`h-6 w-6 ${stat.iconColor}`} />
             </div>
@@ -142,7 +142,7 @@ export function DashboardPage() {
 
       {/* Gráfico + Status Agendamentos */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Receita vs Despesas (12 meses)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={cashFlowData} barGap={0} barCategoryGap="20%">
@@ -163,7 +163,7 @@ export function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <div className="flex items-center gap-2 mb-4">
             <Calendar className="h-4 w-4 text-primary-600" />
             <h3 className="text-sm font-semibold text-[#1F2937]">Status dos Agendamentos</h3>
@@ -184,7 +184,7 @@ export function DashboardPage() {
           ) : (
             <div className="space-y-2">
               {appointments.slice(0, 6).map((apt: any) => (
-                <div key={apt.id} className="flex items-center justify-between rounded-lg border border-[#E5E7EB] p-3">
+                <div key={apt.id} className="flex items-center justify-between rounded-lg border border-[#E5E7EB] dark:border-gray-700 p-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="h-8 w-8 rounded-full shrink-0" style={{ backgroundColor: apt.professional?.color || '#2563EB' }} />
                     <div className="min-w-0">
@@ -204,7 +204,7 @@ export function DashboardPage() {
       </div>
 
       {/* Atalhos Rápidos */}
-      <div className="rounded-xl bg-white p-6 shadow-card">
+      <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
         <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Atalhos Rápidos</h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {quickActions.map((action) => (
@@ -214,7 +214,7 @@ export function DashboardPage() {
               className={`flex items-center gap-3 rounded-lg px-5 py-3.5 text-sm font-semibold transition-all ${
                 action.primary
                   ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-card'
-                  : 'border border-[#E5E7EB] text-primary-600 hover:bg-primary-50 hover:border-primary-200'
+                  : 'border border-[#E5E7EB] dark:border-gray-700 text-primary-600 hover:bg-primary-50 hover:border-primary-200'
               }`}
             >
               <action.icon className={`h-5 w-5 ${action.primary ? 'text-white' : 'text-primary-600'} shrink-0`} />
@@ -226,11 +226,11 @@ export function DashboardPage() {
 
       {/* Próximos Agendamentos + Resumo Financeiro */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Próximos Agendamentos</h3>
           <div className="space-y-2">
             {appointments.length > 0 ? appointments.slice(0, 5).map((apt: any) => (
-              <div key={apt.id} className="flex items-center justify-between rounded-lg bg-[#F9FAFB] px-4 py-3">
+              <div key={apt.id} className="flex items-center justify-between rounded-lg bg-[#F9FAFB] dark:bg-gray-800 px-4 py-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="h-9 w-9 rounded-full shrink-0" style={{ backgroundColor: apt.professional?.color || '#2563EB' }} />
                   <div className="min-w-0">
@@ -249,7 +249,7 @@ export function DashboardPage() {
           </div>
         </div>
 
-        <div className="rounded-xl bg-white p-6 shadow-card">
+        <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
           <h3 className="mb-4 text-sm font-semibold text-[#1F2937]">Resumo Financeiro</h3>
           <div className="space-y-2">
             <div className="flex items-center justify-between rounded-lg bg-success-50 px-4 py-3">
@@ -266,21 +266,21 @@ export function DashboardPage() {
               </div>
               <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.pendingAmount || 0)}</span>
             </div>
-            <div className="flex items-center justify-between rounded-lg bg-red-50 px-4 py-3">
+            <div className="flex items-center justify-between rounded-lg bg-red-50 dark:bg-red-900/20 px-4 py-3">
               <div className="flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4 text-red-500" />
                 <span className="text-sm font-medium text-[#1F2937]">Inadimplência</span>
               </div>
               <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.overdueAmount || 0)}</span>
             </div>
-            <div className="flex items-center justify-between rounded-lg bg-red-50/50 px-4 py-3">
+            <div className="flex items-center justify-between rounded-lg bg-red-50/50 dark:bg-red-900/10 px-4 py-3">
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4 text-red-500" />
                 <span className="text-sm font-medium text-[#1F2937]">Despesas</span>
               </div>
               <span className="text-sm font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.expenses || 0)}</span>
             </div>
-            <div className="border-t border-[#E5E7EB] pt-3 mt-3">
+            <div className="border-t border-[#E5E7EB] dark:border-gray-700 pt-3 mt-3">
               <div className="flex items-center justify-between px-1">
                 <span className="text-sm font-medium text-[#6B7280]">Lucro Líquido</span>
                 <span className="text-base font-bold text-[#1F2937]">{formatCurrency(billingDashboard?.netProfit || 0)}</span>

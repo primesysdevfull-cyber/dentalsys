@@ -17,8 +17,8 @@ export function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Configurações</h1>
-        <p className="text-gray-500">Gerenciar configurações da clínica e do sistema</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Configurações</h1>
+        <p className="text-gray-500 dark:text-gray-400">Gerenciar configurações da clínica e do sistema</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -26,21 +26,21 @@ export function SettingsPage() {
           <button
             key={section.title}
             onClick={() => navigate(section.href)}
-            className="flex items-start gap-4 rounded-xl border bg-white p-6 text-left shadow-sm transition-colors hover:bg-gray-50"
+            className="flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-6 text-left shadow-sm transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-800"
           >
             <div className="rounded-lg bg-dental-50 p-3">
               <section.icon className="h-5 w-5 text-dental-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-900">{section.title}</h3>
-              <p className="mt-1 text-sm text-gray-500">{section.description}</p>
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100">{section.title}</h3>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{section.description}</p>
             </div>
           </button>
         ))}
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 font-semibold text-gray-900">Notificações Automáticas</h3>
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+        <h3 className="mb-4 font-semibold text-gray-900 dark:text-gray-100">Notificações Automáticas</h3>
         <div className="space-y-3">
           {[
             { label: 'Lembrete de consulta (24h antes)', desc: 'Envia WhatsApp automático 24h antes do horário agendado', enabled: true },
@@ -48,49 +48,49 @@ export function SettingsPage() {
             { label: 'Lembrete de pagamento', desc: 'Aviso de fatura próximo do vencimento', enabled: false },
             { label: 'Confirmação de presença', desc: 'Solicita confirmação 2h antes da consulta', enabled: true },
           ].map((item) => (
-            <div key={item.label} className="flex items-center justify-between rounded-lg border bg-gray-50 p-3">
+            <div key={item.label} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
               <div>
-                <p className="text-sm font-medium text-gray-900">{item.label}</p>
-                <p className="text-xs text-gray-500">{item.desc}</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.label}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</p>
               </div>
               <label className="relative inline-flex cursor-pointer items-center">
                 <input type="checkbox" defaultChecked={item.enabled} className="peer sr-only" />
-                <div className="h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all peer-checked:bg-teal-600 peer-checked:after:translate-x-full peer-checked:after:border-white" />
+                <div className="h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all peer-checked:bg-teal-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-gray-600 dark:after:border-gray-600 dark:after:bg-gray-800" />
               </label>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 font-semibold text-gray-900">IA e Automação</h3>
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+        <h3 className="mb-4 font-semibold text-gray-900 dark:text-gray-100">IA e Automação</h3>
         <div className="space-y-3">
           {[
             { label: 'Sugestão automática de prontuário', desc: 'IA sugere diagnóstico e procedimentos baseados no histórico', enabled: true },
             { label: 'Transcrição de voz', desc: 'Transcrever áudio da consulta para texto automaticamente', enabled: false },
             { label: 'Reconhecimento de padrões', desc: 'Identificar padrões de tratamento e sugerir fluxos otimizados', enabled: false },
           ].map((item) => (
-            <div key={item.label} className="flex items-center justify-between rounded-lg border bg-gray-50 p-3">
+            <div key={item.label} className="flex items-center justify-between rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
               <div>
-                <p className="text-sm font-medium text-gray-900">{item.label}</p>
-                <p className="text-xs text-gray-500">{item.desc}</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.label}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</p>
               </div>
               <label className="relative inline-flex cursor-pointer items-center">
                 <input type="checkbox" defaultChecked={item.enabled} className="peer sr-only" />
-                <div className="h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all peer-checked:bg-teal-600 peer-checked:after:translate-x-full peer-checked:after:border-white" />
+                <div className="h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all peer-checked:bg-teal-600 peer-checked:after:translate-x-full peer-checked:after:border-white dark:bg-gray-600 dark:after:border-gray-600 dark:after:bg-gray-800" />
               </label>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
-        <h3 className="mb-4 font-semibold text-gray-900">Assinatura</h3>
-        <div className="rounded-lg bg-gray-50 p-4">
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+        <h3 className="mb-4 font-semibold text-gray-900 dark:text-gray-100">Assinatura</h3>
+        <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">Plano Atual</p>
-              <p className="text-sm text-gray-500">Acesso a todas as funcionalidades</p>
+              <p className="font-medium text-gray-900 dark:text-gray-100">Plano Atual</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Acesso a todas as funcionalidades</p>
             </div>
             <span className="rounded-full bg-dental-100 px-3 py-1 text-sm font-medium text-dental-700">Profissional</span>
           </div>

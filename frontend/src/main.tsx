@@ -5,8 +5,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './hooks/useAuth';
 import { ThemeProvider } from './hooks/useTheme';
+import { initAutoUppercase } from './utils/autoUppercase';
 import App from './App';
 import './index.css';
+
+initAutoUppercase();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,13 +31,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
               position="top-right"
               toastOptions={{
                 duration: 4000,
-                style: {
-                  background: '#fff',
-                  color: '#1e293b',
-                  borderRadius: '8px',
-                  border: '1px solid #e2e8f0',
-                  padding: '12px 16px',
-                },
+                className: 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-lg p-3',
               }}
             />
           </AuthProvider>

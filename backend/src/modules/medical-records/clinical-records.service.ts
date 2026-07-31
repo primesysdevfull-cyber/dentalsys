@@ -183,6 +183,7 @@ export class ClinicalRecordsService {
           include: { procedure: true },
           orderBy: { order: 'asc' },
         },
+        professional: { select: { id: true, name: true } },
       },
       orderBy: { createdAt: 'desc' },
     });
@@ -197,6 +198,7 @@ export class ClinicalRecordsService {
           orderBy: { order: 'asc' },
         },
         patient: { select: { id: true, name: true } },
+        professional: { select: { id: true, name: true } },
       },
     });
     if (!plan) throw new NotFoundException('Plano de tratamento não encontrado');
@@ -213,6 +215,9 @@ export class ClinicalRecordsService {
         totalEstimate: dto.totalEstimate,
         startDate: dto.startDate ? new Date(dto.startDate) : undefined,
         estimatedEndDate: dto.estimatedEndDate ? new Date(dto.estimatedEndDate) : undefined,
+        professionalId: dto.professionalId,
+        validUntil: dto.validUntil ? new Date(dto.validUntil) : undefined,
+        notes: dto.notes,
         items: dto.items
           ? {
               create: dto.items.map((item, index) => ({
@@ -220,6 +225,7 @@ export class ClinicalRecordsService {
                 toothNumber: item.toothNumber,
                 description: item.description,
                 estimatedPrice: item.estimatedPrice,
+                quantity: item.quantity ?? 1,
                 order: index,
               })),
             }
@@ -227,6 +233,7 @@ export class ClinicalRecordsService {
       },
       include: {
         items: { include: { procedure: true } },
+        professional: { select: { id: true, name: true } },
       },
     });
   }
@@ -242,9 +249,13 @@ export class ClinicalRecordsService {
         description: dto.description,
         status: dto.status as any,
         totalEstimate: dto.totalEstimate,
+        professionalId: dto.professionalId,
+        validUntil: dto.validUntil ? new Date(dto.validUntil) : undefined,
+        notes: dto.notes,
       },
       include: {
         items: { include: { procedure: true } },
+        professional: { select: { id: true, name: true } },
       },
     });
   }
@@ -266,6 +277,7 @@ export class ClinicalRecordsService {
         toothNumber: dto.toothNumber,
         description: dto.description,
         estimatedPrice: dto.estimatedPrice,
+        quantity: dto.quantity ?? 1,
         order: (maxOrder?.order || 0) + 1,
       },
       include: { procedure: true },
@@ -286,7 +298,7 @@ export class ClinicalRecordsService {
     return this.prisma.treatmentPlan.update({
       where: { id: planId },
       data: { status: 'IN_PROGRESS' },
-      include: { items: { include: { procedure: true } } },
+      include: { items: { include: { procedure: true } }, professional: { select: { id: true, name: true } } },
     });
   }
 
@@ -297,7 +309,7 @@ export class ClinicalRecordsService {
     return this.prisma.treatmentPlan.update({
       where: { id: planId },
       data: { status: 'CANCELLED' },
-      include: { items: { include: { procedure: true } } },
+      include: { items: { include: { procedure: true } }, professional: { select: { id: true, name: true } } },
     });
   }
 
@@ -310,6 +322,7 @@ export class ClinicalRecordsService {
       data: { status: 'COMPLETED', completedAt: new Date() },
       include: {
         items: { include: { procedure: true } },
+        professional: { select: { id: true, name: true } },
       },
     });
   }
@@ -319,7 +332,7 @@ export class ClinicalRecordsService {
       const plan = await tx.treatmentPlan.update({
         where: { id: planId },
         data: { status: 'ACCEPTED' },
-        include: { patient: { select: { id: true, name: true } } },
+        include: { patient: { select: { id: true, name: true } }, professional: { select: { id: true, name: true } } },
       });
 
       if (plan.totalEstimate && Number(plan.totalEstimate) > 0) {
@@ -327,6 +340,7 @@ export class ClinicalRecordsService {
           data: {
             tenantId,
             patientId: plan.patientId,
+            professionalId: plan.professionalId,
             type: 'INCOME',
             description: `Plano: ${plan.title}`,
             amount: plan.totalEstimate,

@@ -1,8 +1,8 @@
-import { IsString, IsOptional, IsArray, ValidateNested, IsNumber, IsDateString, IsUUID } from 'class-validator';
+import { IsString, IsOptional, IsArray, ValidateNested, IsNumber, IsDateString, IsUUID, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-class TreatmentPlanItemDto {
+export class TreatmentPlanItemDto {
   @ApiPropertyOptional({ example: 'uuid-do-procedimento' })
   @IsOptional()
   @IsUUID()
@@ -22,6 +22,12 @@ class TreatmentPlanItemDto {
   @IsOptional()
   @IsNumber()
   estimatedPrice?: number;
+
+  @ApiPropertyOptional({ default: 1 })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  quantity?: number;
 }
 
 export class CreateTreatmentPlanDto {
@@ -29,7 +35,7 @@ export class CreateTreatmentPlanDto {
   @IsUUID()
   patientId: string;
 
-  @ApiProperty({ example: 'Tratamento canal + coroa' })
+  @ApiProperty({ example: 'Restauração + Limpeza' })
   @IsString()
   title: string;
 
@@ -52,6 +58,21 @@ export class CreateTreatmentPlanDto {
   @IsOptional()
   @IsDateString()
   estimatedEndDate?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUUID()
+  professionalId?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsDateString()
+  validUntil?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  notes?: string;
 
   @ApiPropertyOptional({ type: [TreatmentPlanItemDto] })
   @IsOptional()

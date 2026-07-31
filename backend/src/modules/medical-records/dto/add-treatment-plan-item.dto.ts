@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber, Min } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AddTreatmentPlanItemDto {
@@ -21,4 +21,10 @@ export class AddTreatmentPlanItemDto {
   @IsOptional()
   @IsNumber()
   estimatedPrice?: number;
+
+  @ApiPropertyOptional({ default: 1 })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  quantity?: number;
 }

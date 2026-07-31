@@ -130,8 +130,8 @@ export function InventoryPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Estoque</h1>
-          <p className="text-gray-500">Controle de materiais e medicamentos</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Estoque</h1>
+          <p className="text-gray-500 dark:text-gray-400">Controle de materiais e medicamentos</p>
         </div>
         <button onClick={openCreate} className="flex items-center gap-2 rounded-lg bg-dental-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-dental-700">
           <Plus className="h-4 w-4" />
@@ -140,41 +140,41 @@ export function InventoryPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
-          <p className="text-sm text-gray-500">Total de Itens</p>
-          <p className="text-2xl font-bold text-gray-900">{stats?.totalItems || 0}</p>
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Total de Itens</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats?.totalItems || 0}</p>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-red-500" />
-            <p className="text-sm text-gray-500">Estoque Baixo</p>
+            <AlertTriangle className="h-5 w-5 text-red-500 dark:text-red-400" />
+            <p className="text-sm text-gray-500 dark:text-gray-400">Estoque Baixo</p>
           </div>
-          <p className="text-2xl font-bold text-red-600">{stats?.lowStockCount || 0}</p>
+          <p className="text-2xl font-bold text-red-600 dark:text-red-400">{stats?.lowStockCount || 0}</p>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
-          <p className="text-sm text-gray-500">Valor em Estoque</p>
-          <p className="text-2xl font-bold text-gray-900">{formatCurrency(stats?.totalValue || 0)}</p>
+        <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <p className="text-sm text-gray-500 dark:text-gray-400">Valor em Estoque</p>
+          <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{formatCurrency(stats?.totalValue || 0)}</p>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             placeholder="Buscar item..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500"
+            className="w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 dark:text-gray-100 py-2.5 pl-10 pr-4 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary"
           />
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <div className="rounded-xl border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+              <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 <th className="px-6 py-3">Item</th>
                 <th className="px-6 py-3">Categoria</th>
                 <th className="px-6 py-3">Estoque</th>
@@ -184,53 +184,53 @@ export function InventoryPage() {
                 <th className="px-6 py-3">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {isLoading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-sm text-gray-400">Carregando...</td>
+                  <td colSpan={7} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">Carregando...</td>
                 </tr>
               ) : data?.data?.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-sm text-gray-400">
+                  <td colSpan={7} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">
                     Nenhum item encontrado
                   </td>
                 </tr>
               ) : (
                 data?.data?.map((item: any) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
+                  <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <Package className="h-5 w-5 text-gray-400" />
+                        <Package className="h-5 w-5 text-gray-400 dark:text-gray-500" />
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                          {item.sku && <p className="text-xs text-gray-400">SKU: {item.sku}</p>}
+                          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{item.name}</p>
+                          {item.sku && <p className="text-xs text-gray-400 dark:text-gray-500">SKU: {item.sku}</p>}
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{item.category || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{item.category || '-'}</td>
                     <td className="px-6 py-4">
                       <span className={`text-sm font-semibold ${
-                        item.currentStock <= item.minStock ? 'text-red-600' : 'text-gray-900'
+                        item.currentStock <= item.minStock ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-gray-100'
                       }`}>
                         {item.currentStock} {item.unit}
                       </span>
                       {item.currentStock <= item.minStock && (
-                        <span className="ml-2 text-xs text-red-500">(mín: {item.minStock})</span>
+                        <span className="ml-2 text-xs text-red-500 dark:text-red-400">(mín: {item.minStock})</span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {item.unitCost ? formatCurrency(Number(item.unitCost)) : '-'}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {item.expiryDate ? new Date(item.expiryDate).toLocaleDateString('pt-BR') : '-'}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{item.supplierName || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{item.supplierName || '-'}</td>
                     <td className="px-6 py-4">
                       <div className="flex gap-1">
-                        <button onClick={() => openEdit(item)} title="Editar" className="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-dental-600">
+                        <button onClick={() => openEdit(item)} title="Editar" className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-dental-600">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button onClick={() => openMovement(item)} title="Movimentar Estoque" className="rounded p-1 text-gray-400 hover:bg-blue-50 hover:text-blue-600">
+                        <button onClick={() => openMovement(item)} title="Movimentar Estoque" className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-blue-50 dark:hover:bg-blue-900 hover:text-blue-600 dark:hover:text-blue-400">
                           <ArrowDown className="h-4 w-4" />
                         </button>
                       </div>
@@ -245,30 +245,30 @@ export function InventoryPage() {
 
       {showCreateModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="mx-4 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">{editingItem ? 'Editar Item' : 'Novo Item'}</h2>
-              <button onClick={closeCreateModal} className="rounded p-1 text-gray-400 hover:bg-gray-100"><X className="h-5 w-5" /></button>
+          <div className="mx-4 w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl bg-white dark:bg-gray-900 shadow-2xl">
+            <div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{editingItem ? 'Editar Item' : 'Novo Item'}</h2>
+              <button onClick={closeCreateModal} className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"><X className="h-5 w-5" /></button>
             </div>
             <form onSubmit={handleCreateSubmit} className="px-6 py-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Nome *</label>
-                <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Nome *</label>
+                <input type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Categoria</label>
-                  <input type="text" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} placeholder="Ex: Medicamento, Material" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Categoria</label>
+                  <input type="text" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} placeholder="Ex: Medicamento, Material" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">SKU</label>
-                  <input type="text" value={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">SKU</label>
+                  <input type="text" value={formData.sku} onChange={(e) => setFormData({ ...formData, sku: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Unidade</label>
-                  <select value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Unidade</label>
+                  <select value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                     <option value="un">Unidade</option>
                     <option value="kg">Quilograma</option>
                     <option value="g">Grama</option>
@@ -279,40 +279,40 @@ export function InventoryPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Estoque Atual</label>
-                  <input type="number" min="0" value={formData.currentStock} onChange={(e) => setFormData({ ...formData, currentStock: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Estoque Atual</label>
+                  <input type="number" min="0" value={formData.currentStock} onChange={(e) => setFormData({ ...formData, currentStock: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Estoque Mín.</label>
-                  <input type="number" min="0" value={formData.minStock} onChange={(e) => setFormData({ ...formData, minStock: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Custo Unitário (R$)</label>
-                  <input type="number" step="0.01" min="0" value={formData.unitCost} onChange={(e) => setFormData({ ...formData, unitCost: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Preço Venda (R$)</label>
-                  <input type="number" step="0.01" min="0" value={formData.unitPrice} onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Estoque Mín.</label>
+                  <input type="number" min="0" value={formData.minStock} onChange={(e) => setFormData({ ...formData, minStock: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Validade</label>
-                  <input type="date" value={formData.expiryDate} onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Custo Unitário (R$)</label>
+                  <input type="number" step="0.01" min="0" value={formData.unitCost} onChange={(e) => setFormData({ ...formData, unitCost: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Fornecedor</label>
-                  <input type="text" value={formData.supplierName} onChange={(e) => setFormData({ ...formData, supplierName: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Preço Venda (R$)</label>
+                  <input type="number" step="0.01" min="0" value={formData.unitPrice} onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Validade</label>
+                  <input type="date" value={formData.expiryDate} onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Fornecedor</label>
+                  <input type="text" value={formData.supplierName} onChange={(e) => setFormData({ ...formData, supplierName: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Descrição</label>
-                <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={2} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Descrição</label>
+                <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={2} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
-              <div className="flex justify-end gap-3 border-t pt-4">
-                <button type="button" onClick={closeCreateModal} className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancelar</button>
+              <div className="flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
+                <button type="button" onClick={closeCreateModal} className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800">Cancelar</button>
                 <button type="submit" disabled={createMutation.isPending || updateMutation.isPending} className="rounded-lg bg-dental-600 px-4 py-2 text-sm font-semibold text-white hover:bg-dental-700 disabled:opacity-50">
                   {createMutation.isPending || updateMutation.isPending ? 'Salvando...' : editingItem ? 'Salvar' : 'Criar'}
                 </button>
@@ -324,19 +324,19 @@ export function InventoryPage() {
 
       {movementItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="mx-4 w-full max-w-md rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">Movimentar Estoque</h2>
-              <button onClick={closeMovementModal} className="rounded p-1 text-gray-400 hover:bg-gray-100"><X className="h-5 w-5" /></button>
+          <div className="mx-4 w-full max-w-md rounded-xl bg-white dark:bg-gray-900 shadow-2xl">
+            <div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Movimentar Estoque</h2>
+              <button onClick={closeMovementModal} className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"><X className="h-5 w-5" /></button>
             </div>
             <div className="px-6 pt-4">
-              <p className="text-sm text-gray-500">Item: <span className="font-medium text-gray-900">{movementItem.name}</span></p>
-              <p className="text-sm text-gray-500">Estoque atual: <span className="font-medium text-gray-900">{movementItem.currentStock} {movementItem.unit}</span></p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Item: <span className="font-medium text-gray-900 dark:text-gray-100">{movementItem.name}</span></p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Estoque atual: <span className="font-medium text-gray-900 dark:text-gray-100">{movementItem.currentStock} {movementItem.unit}</span></p>
             </div>
             <form onSubmit={handleMovementSubmit} className="px-6 py-4 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Tipo de Movimentação *</label>
-                <select required value={moveData.type} onChange={(e) => setMoveData({ ...moveData, type: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Tipo de Movimentação *</label>
+                <select required value={moveData.type} onChange={(e) => setMoveData({ ...moveData, type: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="ENTRY">Entrada (compra/reposição)</option>
                   <option value="EXIT">Saída (baixa/consumo)</option>
                   <option value="ADJUSTMENT">Ajuste de estoque</option>
@@ -344,31 +344,31 @@ export function InventoryPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Quantidade *</label>
-                <input type="number" required min="1" value={moveData.quantity} onChange={(e) => setMoveData({ ...moveData, quantity: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Quantidade *</label>
+                <input type="number" required min="1" value={moveData.quantity} onChange={(e) => setMoveData({ ...moveData, quantity: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
               {(moveData.type === 'ENTRY' || moveData.type === 'RETURN') && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Custo Unitário (R$)</label>
-                    <input type="number" step="0.01" min="0" value={moveData.unitCost} onChange={(e) => setMoveData({ ...moveData, unitCost: e.target.value })} placeholder="0,00" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Custo Unitário (R$)</label>
+                    <input type="number" step="0.01" min="0" value={moveData.unitCost} onChange={(e) => setMoveData({ ...moveData, unitCost: e.target.value })} placeholder="0,00" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Custo Total (R$)</label>
-                    <input type="number" step="0.01" min="0" value={moveData.totalCost} onChange={(e) => setMoveData({ ...moveData, totalCost: e.target.value })} placeholder="0,00" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Custo Total (R$)</label>
+                    <input type="number" step="0.01" min="0" value={moveData.totalCost} onChange={(e) => setMoveData({ ...moveData, totalCost: e.target.value })} placeholder="0,00" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Nº Nota Fiscal</label>
-                    <input type="text" value={moveData.invoiceNumber} onChange={(e) => setMoveData({ ...moveData, invoiceNumber: e.target.value })} placeholder="NF-e 000.000.001" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Nº Nota Fiscal</label>
+                    <input type="text" value={moveData.invoiceNumber} onChange={(e) => setMoveData({ ...moveData, invoiceNumber: e.target.value })} placeholder="NF-e 000.000.001" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                   </div>
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Motivo</label>
-                <input type="text" value={moveData.reason} onChange={(e) => setMoveData({ ...moveData, reason: e.target.value })} placeholder="Ex: Reposição de estoque" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Motivo</label>
+                <input type="text" value={moveData.reason} onChange={(e) => setMoveData({ ...moveData, reason: e.target.value })} placeholder="Ex: Reposição de estoque" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
-              <div className="flex justify-end gap-3 border-t pt-4">
-                <button type="button" onClick={closeMovementModal} className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancelar</button>
+              <div className="flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
+                <button type="button" onClick={closeMovementModal} className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800">Cancelar</button>
                 <button type="submit" disabled={movementMutation.isPending} className="rounded-lg bg-dental-600 px-4 py-2 text-sm font-semibold text-white hover:bg-dental-700 disabled:opacity-50">
                   {movementMutation.isPending ? 'Salvando...' : 'Registrar'}
                 </button>

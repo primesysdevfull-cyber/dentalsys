@@ -23,6 +23,9 @@ import { PrivacyModule } from './modules/privacy/privacy.module';
 import { LabModule } from './modules/lab/lab.module';
 import { AiModule } from './modules/ai/ai.module';
 import { OnlineBookingModule } from './modules/online-booking/online-booking.module';
+import { CashFlowModule } from './modules/cash-flow/cash-flow.module';
+import { CommissionsModule } from './modules/commissions/commissions.module';
+import { RecallModule } from './modules/recall/recall.module';
 import { MigrationModule } from './modules/migration/migration.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -54,6 +57,9 @@ import { AppService } from './app.service';
     AiModule,
     OnlineBookingModule,
     MigrationModule,
+    RecallModule,
+    CashFlowModule,
+    CommissionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

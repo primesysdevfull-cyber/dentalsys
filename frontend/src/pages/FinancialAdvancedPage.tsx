@@ -72,14 +72,14 @@ export function FinancialAdvancedPage() {
 
   function renderPeriodSelector(period: Period, onChange: (p: Period) => void, customStart: string, customEnd: string, onStartChange: (v: string) => void, onEndChange: (v: string) => void) {
     return (
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex gap-1 rounded-lg border bg-white p-0.5 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex gap-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-0.5 shadow-sm">
           {periodOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => onChange(opt.value)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
-                period === opt.value ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-700'
+                period === opt.value ? 'bg-teal-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
               }`}
             >
               {opt.label}
@@ -88,9 +88,9 @@ export function FinancialAdvancedPage() {
         </div>
         {period === 'custom' && (
           <div className="flex items-center gap-2">
-            <input type="date" value={customStart} onChange={(e) => onStartChange(e.target.value)} className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs focus:border-teal-500 focus:outline-none" />
-            <span className="text-xs text-gray-400">até</span>
-            <input type="date" value={customEnd} onChange={(e) => onEndChange(e.target.value)} className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs focus:border-teal-500 focus:outline-none" />
+            <input type="date" value={customStart} onChange={(e) => onStartChange(e.target.value)} className="rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-1.5 text-xs focus:border-teal-500 focus:outline-none" />
+            <span className="text-xs text-gray-400 dark:text-gray-500">até</span>
+            <input type="date" value={customEnd} onChange={(e) => onEndChange(e.target.value)} className="rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-1.5 text-xs focus:border-teal-500 focus:outline-none" />
           </div>
         )}
       </div>
@@ -115,16 +115,16 @@ export function FinancialAdvancedPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Financeiro Avançado</h1>
-          <p className="text-gray-500">Análise detalhada de resultados</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Financeiro Avançado</h1>
+          <p className="text-gray-500 dark:text-gray-400">Análise detalhada de resultados</p>
         </div>
       </div>
 
-      <div className="flex gap-1 rounded-xl border bg-white p-1 shadow-sm">
+      <div className="flex gap-1 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-1 shadow-sm">
         <button
           onClick={() => setTab('dre')}
           className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
-            tab === 'dre' ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-700'
+            tab === 'dre' ? 'bg-teal-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
           }`}
         >
           DRE
@@ -132,7 +132,7 @@ export function FinancialAdvancedPage() {
         <button
           onClick={() => setTab('cashflow')}
           className={`flex-1 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
-            tab === 'cashflow' ? 'bg-teal-600 text-white' : 'text-gray-500 hover:text-gray-700'
+            tab === 'cashflow' ? 'bg-teal-600 text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
           }`}
         >
           Fluxo de Caixa
@@ -144,7 +144,7 @@ export function FinancialAdvancedPage() {
           {renderPeriodSelector(drePeriod, setDrePeriod, dreStartDate, dreEndDate, setDreStartDate, setDreEndDate)}
 
           {dreLoading ? (
-            <div className="rounded-xl border bg-white p-12 text-center text-sm text-gray-400 shadow-sm">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-12 text-center text-sm text-gray-400 dark:text-gray-500 shadow-sm">
               Carregando DRE...
             </div>
           ) : dreData ? (
@@ -153,13 +153,13 @@ export function FinancialAdvancedPage() {
                 {summaryCards.map((card) => {
                   const Icon = card.icon;
                   return (
-                    <div key={card.label} className="rounded-xl border bg-white p-5 shadow-sm">
+                    <div key={card.label} className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
                       <div className="flex items-center gap-3">
                         <div className={`rounded-lg ${card.bg} p-2`}>
                           <Icon className={`h-5 w-5 ${card.color}`} />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-500">{card.label}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{card.label}</p>
                           <p className={`text-lg font-bold ${card.color}`}>{formatCurrency(card.value)}</p>
                         </div>
                       </div>
@@ -169,15 +169,15 @@ export function FinancialAdvancedPage() {
               </div>
 
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                <div className="rounded-xl border bg-white p-6 shadow-sm">
-                  <h3 className="mb-4 text-sm font-semibold text-gray-900">Receitas por Categoria</h3>
+                <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                  <h3 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">Receitas por Categoria</h3>
                   <div className="space-y-3">
                     {dreData.revenue?.byCategory?.length === 0 && (
-                      <p className="text-sm text-gray-400">Nenhuma receita no período.</p>
+                      <p className="text-sm text-gray-400 dark:text-gray-500">Nenhuma receita no período.</p>
                     )}
                     {dreData.revenue?.byCategory?.map((cat: any) => (
-                      <div key={cat.category} className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3">
-                        <span className="text-sm font-medium text-gray-700">{cat.category}</span>
+                      <div key={cat.category} className="flex items-center justify-between rounded-lg bg-gray-50 dark:bg-gray-800 px-4 py-3">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-400">{cat.category}</span>
                         <span className="text-sm font-semibold text-green-600">{formatCurrency(cat.total)}</span>
                       </div>
                     ))}
@@ -190,15 +190,15 @@ export function FinancialAdvancedPage() {
                   </div>
                 </div>
 
-                <div className="rounded-xl border bg-white p-6 shadow-sm">
-                  <h3 className="mb-4 text-sm font-semibold text-gray-900">Despesas por Categoria</h3>
+                <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                  <h3 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">Despesas por Categoria</h3>
                   <div className="space-y-3">
                     {dreData.expenses?.byCategory?.length === 0 && (
-                      <p className="text-sm text-gray-400">Nenhuma despesa no período.</p>
+                      <p className="text-sm text-gray-400 dark:text-gray-500">Nenhuma despesa no período.</p>
                     )}
                     {dreData.expenses?.byCategory?.map((cat: any) => (
-                      <div key={cat.category} className="flex items-center justify-between rounded-lg bg-gray-50 px-4 py-3">
-                        <span className="text-sm font-medium text-gray-700">{cat.category}</span>
+                      <div key={cat.category} className="flex items-center justify-between rounded-lg bg-gray-50 dark:bg-gray-800 px-4 py-3">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-400">{cat.category}</span>
                         <span className="text-sm font-semibold text-red-600">{formatCurrency(cat.total)}</span>
                       </div>
                     ))}
@@ -212,8 +212,8 @@ export function FinancialAdvancedPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-white p-6 shadow-sm">
-                <h3 className="mb-4 text-sm font-semibold text-gray-900">Receitas vs Despesas vs Resultado</h3>
+              <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">Receitas vs Despesas vs Resultado</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={barComparison} barSize={80}>
@@ -229,7 +229,7 @@ export function FinancialAdvancedPage() {
               </div>
             </>
           ) : (
-            <div className="rounded-xl border bg-white p-12 text-center text-sm text-gray-400 shadow-sm">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-12 text-center text-sm text-gray-400 dark:text-gray-500 shadow-sm">
               Erro ao carregar DRE. Tente novamente.
             </div>
           )}
@@ -241,13 +241,13 @@ export function FinancialAdvancedPage() {
           {renderPeriodSelector(cfPeriod, setCfPeriod, cfStartDate, cfEndDate, setCfStartDate, setCfEndDate)}
 
           {cfLoading ? (
-            <div className="rounded-xl border bg-white p-12 text-center text-sm text-gray-400 shadow-sm">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-12 text-center text-sm text-gray-400 dark:text-gray-500 shadow-sm">
               Carregando fluxo de caixa...
             </div>
           ) : cfData ? (
             <>
-              <div className="rounded-xl border bg-white p-6 shadow-sm">
-                <h3 className="mb-4 text-sm font-semibold text-gray-900">Fluxo de Caixa Mensal</h3>
+              <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-sm">
+                <h3 className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">Fluxo de Caixa Mensal</h3>
                 <div className="h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={cfData} barSize={40}>
@@ -263,28 +263,28 @@ export function FinancialAdvancedPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border bg-white shadow-sm">
+              <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+                      <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                         <th className="px-6 py-3">Mês</th>
                         <th className="px-6 py-3">Receitas</th>
                         <th className="px-6 py-3">Despesas</th>
                         <th className="px-6 py-3">Saldo</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y">
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                       {cfData.length === 0 ? (
                         <tr>
-                          <td colSpan={4} className="px-6 py-12 text-center text-sm text-gray-400">
+                          <td colSpan={4} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">
                             Nenhum dado no período.
                           </td>
                         </tr>
                       ) : (
                         cfData.map((row: any, idx: number) => (
-                          <tr key={idx} className="hover:bg-gray-50">
-                            <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.month}</td>
+                          <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                            <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-gray-100">{row.month}</td>
                             <td className="px-6 py-4 text-sm font-semibold text-green-600">{formatCurrency(row.income)}</td>
                             <td className="px-6 py-4 text-sm font-semibold text-red-600">{formatCurrency(row.expense)}</td>
                             <td className="px-6 py-4 text-sm font-semibold">
@@ -301,7 +301,7 @@ export function FinancialAdvancedPage() {
               </div>
             </>
           ) : (
-            <div className="rounded-xl border bg-white p-12 text-center text-sm text-gray-400 shadow-sm">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-12 text-center text-sm text-gray-400 dark:text-gray-500 shadow-sm">
               Erro ao carregar fluxo de caixa. Tente novamente.
             </div>
           )}

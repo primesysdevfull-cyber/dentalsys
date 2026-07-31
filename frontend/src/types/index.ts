@@ -115,6 +115,10 @@ export interface TreatmentPlan {
   description?: string;
   status: 'PROPOSED' | 'ACCEPTED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   totalEstimate?: number;
+  professionalId?: string;
+  professional?: { id: string; name: string };
+  validUntil?: string;
+  notes?: string;
   items: TreatmentPlanItem[];
 }
 
@@ -124,6 +128,7 @@ export interface TreatmentPlanItem {
   toothNumber?: number;
   description?: string;
   estimatedPrice?: number;
+  quantity?: number;
   status: string;
   order: number;
   procedure?: { id: string; name: string };

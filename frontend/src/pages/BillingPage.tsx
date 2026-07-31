@@ -180,8 +180,8 @@ export function BillingPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Financeiro</h1>
-          <p className="text-gray-500">Controle financeiro da clínica</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Financeiro</h1>
+          <p className="text-gray-500 dark:text-gray-400">Controle financeiro da clínica</p>
         </div>
         <button onClick={openCreate} className="flex items-center gap-2 rounded-lg bg-dental-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-dental-700">
           <Plus className="h-4 w-4" />
@@ -190,69 +190,69 @@ export function BillingPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6">
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-green-50 p-2">
               <TrendingUp className="h-5 w-5 text-green-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Receitas</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.revenue || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Receitas</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.revenue || 0)}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-red-50 p-2">
               <TrendingUp className="h-5 w-5 text-red-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Despesas</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.expenses || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Despesas</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.expenses || 0)}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-purple-50 p-2">
               <DollarSign className="h-5 w-5 text-purple-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Comissões</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.commissions || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Comissões</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.commissions || 0)}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-yellow-50 p-2">
               <Clock className="h-5 w-5 text-yellow-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">A Receber</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.pendingAmount || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">A Receber</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.pendingAmount || 0)}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-red-100 p-2">
               <AlertTriangle className="h-5 w-5 text-red-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Inadimplência</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.overdueAmount || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Inadimplência</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.overdueAmount || 0)}</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border bg-white p-5 shadow-sm">
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="rounded-lg bg-blue-50 p-2">
               <DollarSign className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Lucro Líquido</p>
-              <p className="text-lg font-bold text-gray-900">{formatCurrency(dashboard?.netProfit || 0)}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Lucro Líquido</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-gray-100">{formatCurrency(dashboard?.netProfit || 0)}</p>
             </div>
           </div>
         </div>
@@ -265,7 +265,7 @@ export function BillingPage() {
               key={t}
               onClick={() => setTypeFilter(t)}
               className={`rounded-lg px-3 py-1.5 text-sm ${
-                typeFilter === t ? 'bg-dental-100 text-dental-700 font-medium' : 'text-gray-500 hover:bg-gray-100'
+                typeFilter === t ? 'bg-dental-100 text-dental-700 font-medium' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               {t === '' ? 'Todos' : t === 'INCOME' ? 'Receitas' : 'Despesas'}
@@ -278,7 +278,7 @@ export function BillingPage() {
               key={s}
               onClick={() => setStatusFilter(s)}
               className={`rounded-lg px-3 py-1.5 text-sm ${
-                statusFilter === s ? 'bg-dental-100 text-dental-700 font-medium' : 'text-gray-500 hover:bg-gray-100'
+                statusFilter === s ? 'bg-dental-100 text-dental-700 font-medium' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               {s === '' ? 'Todos Status' : getStatusLabel(s)}
@@ -287,11 +287,11 @@ export function BillingPage() {
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b bg-gray-50 text-left text-xs font-medium uppercase text-gray-500">
+              <tr className="border-b dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium uppercase text-gray-500 dark:text-gray-400">
                 <th className="px-6 py-3">Descrição</th>
                 <th className="px-6 py-3">Paciente</th>
                 <th className="px-6 py-3">Profissional</th>
@@ -302,32 +302,32 @@ export function BillingPage() {
                 <th className="px-6 py-3">Ações</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {isLoading ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-sm text-gray-400">
+                  <td colSpan={8} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">
                     Carregando...
                   </td>
                 </tr>
               ) : data?.data?.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-6 py-12 text-center text-sm text-gray-400">
+                  <td colSpan={8} className="px-6 py-12 text-center text-sm text-gray-400 dark:text-gray-500">
                     Nenhuma transação encontrada
                   </td>
                 </tr>
               ) : (
                 data?.data?.map((tx: any) => (
-                  <tr key={tx.id} className="hover:bg-gray-50">
+                  <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{tx.description}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{tx.description}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
                           {tx.type === 'INCOME' ? 'Receita' : 'Despesa'}
                           {tx.category && ` • ${tx.category}`}
                         </p>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {tx.patient?.name || '-'}
                       {tx.patient && (tx.patient.whatsapp || tx.patient.phone) && (
                         <a
@@ -341,15 +341,15 @@ export function BillingPage() {
                         </a>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
-                      {tx.professional?.name || <span className="text-gray-300">-</span>}
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
+                      {tx.professional?.name || <span className="text-gray-300 dark:text-gray-500">-</span>}
                     </td>
                     <td className="px-6 py-4">
                       <span className={`text-sm font-semibold ${tx.type === 'INCOME' ? 'text-green-600' : 'text-red-600'}`}>
                         {tx.type === 'INCOME' ? '+' : '-'} {formatCurrency(Number(tx.totalAmount))}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {tx.dueDate ? formatDate(tx.dueDate) : '-'}
                     </td>
                     <td className="px-6 py-4">
@@ -357,11 +357,11 @@ export function BillingPage() {
                         {getStatusLabel(tx.status)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-500">
+                    <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                       {tx.paymentMethod === 'CREDIT_CARD' && tx.installments?.length > 1 ? (
                         <span>
                           {tx.paymentMethod}{' '}
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-gray-400 dark:text-gray-500">
                             {tx.installments.filter((i: any) => i.status === 'PAID').length}/{tx.installments.length}x
                           </span>
                         </span>
@@ -404,8 +404,8 @@ export function BillingPage() {
 
       {/* Despesas por Categoria */}
       {data?.data && data.data.filter((t: any) => t.type === 'EXPENSE').length > 0 && (
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
-          <h3 className="mb-4 font-semibold text-gray-900">Despesas por Categoria</h3>
+        <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 shadow-sm">
+          <h3 className="mb-4 font-semibold text-gray-900 dark:text-gray-100">Despesas por Categoria</h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {Object.entries(
               data.data
@@ -437,34 +437,34 @@ export function BillingPage() {
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="mx-4 w-full max-w-lg rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">{editingTx ? 'Editar Transação' : 'Nova Transação'}</h2>
-              <button onClick={closeModal} className="rounded p-1 text-gray-400 hover:bg-gray-100">
+          <div className="mx-4 w-full max-w-lg rounded-xl bg-white dark:bg-gray-900 shadow-2xl">
+            <div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{editingTx ? 'Editar Transação' : 'Nova Transação'}</h2>
+              <button onClick={closeModal} className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
                 <X className="h-5 w-5" />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="px-6 py-4 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Tipo *</label>
-                  <select required value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Tipo *</label>
+                  <select required value={formData.type} onChange={(e) => setFormData({ ...formData, type: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                     <option value="INCOME">Receita</option>
                     <option value="EXPENSE">Despesa</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Categoria</label>
-                  <input type="text" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} placeholder="Ex: Consulta, Aluguel" className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Categoria</label>
+                  <input type="text" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })} placeholder="Ex: Consulta, Aluguel" className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Descrição *</label>
-                <input type="text" required value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Descrição *</label>
+                <input type="text" required value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Paciente</label>
-                <select value={formData.patientId} onChange={(e) => setFormData({ ...formData, patientId: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Paciente</label>
+                <select value={formData.patientId} onChange={(e) => setFormData({ ...formData, patientId: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="">Nenhum (pagamento avulso)</option>
                   {patientsData?.data?.map((p: any) => (
                     <option key={p.id} value={p.id}>{p.name}</option>
@@ -472,28 +472,28 @@ export function BillingPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Profissional Responsável</label>
-                <select value={formData.professionalId} onChange={(e) => setFormData({ ...formData, professionalId: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Profissional Responsável</label>
+                <select value={formData.professionalId} onChange={(e) => setFormData({ ...formData, professionalId: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="">Nenhum</option>
                   {professionalsData?.data?.map((p: any) => (
                     <option key={p.id} value={p.id}>{p.name}{p.specialty ? ` - ${p.specialty}` : ''}</option>
                   ))}
                 </select>
-                <p className="mt-1 text-xs text-gray-400">Necessário para cálculo de comissões</p>
+                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">Necessário para cálculo de comissões</p>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Valor (R$) *</label>
-                  <input type="number" required step="0.01" min="0" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Valor (R$) *</label>
+                  <input type="number" required step="0.01" min="0" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Data Vencimento</label>
-                  <input type="date" value={formData.dueDate} onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Data Vencimento</label>
+                  <input type="date" value={formData.dueDate} onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Forma de Pagamento</label>
-                <select value={formData.paymentMethod} onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value, totalInstallments: e.target.value === 'CREDIT_CARD' ? formData.totalInstallments : '1' })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Forma de Pagamento</label>
+                <select value={formData.paymentMethod} onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value, totalInstallments: e.target.value === 'CREDIT_CARD' ? formData.totalInstallments : '1' })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="">Selecionar...</option>
                   <option value="CASH">Dinheiro</option>
                   <option value="CREDIT_CARD">Cartão de Crédito</option>
@@ -507,8 +507,8 @@ export function BillingPage() {
               </div>
               {formData.paymentMethod === 'CREDIT_CARD' && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Parcelas</label>
-                  <select value={formData.totalInstallments} onChange={(e) => setFormData({ ...formData, totalInstallments: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Parcelas</label>
+                  <select value={formData.totalInstallments} onChange={(e) => setFormData({ ...formData, totalInstallments: e.target.value })} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                     {Array.from({ length: 12 }, (_, i) => i + 1).map((n) => (
                       <option key={n} value={n}>
                         {n}x {formData.amount ? `de ${formatCurrency(Number(formData.amount) / n)}` : ''}
@@ -517,18 +517,18 @@ export function BillingPage() {
                     ))}
                   </select>
                   {Number(formData.totalInstallments) > 1 && formData.amount && (
-                    <p className="mt-1 text-xs text-gray-500">
+                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                       Total: {formatCurrency(Number(formData.amount))} em {formData.totalInstallments}x de {formatCurrency(Number(formData.amount) / Number(formData.totalInstallments))}
                     </p>
                   )}
                 </div>
               )}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Observações</label>
-                <textarea value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} rows={2} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500" />
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Observações</label>
+                <textarea value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} rows={2} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary" />
               </div>
-              <div className="flex justify-end gap-3 border-t pt-4">
-                <button type="button" onClick={closeModal} className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <div className="flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
+                <button type="button" onClick={closeModal} className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800">
                   Cancelar
                 </button>
                 <button type="submit" disabled={createMutation.isPending || updateMutation.isPending} className="rounded-lg bg-dental-600 px-4 py-2 text-sm font-semibold text-white hover:bg-dental-700 disabled:opacity-50">
@@ -541,23 +541,23 @@ export function BillingPage() {
       )}
       {showPayModal && payTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="mx-4 w-full max-w-md rounded-xl bg-white shadow-2xl">
-            <div className="flex items-center justify-between border-b px-6 py-4">
-              <h2 className="text-lg font-semibold text-gray-900">Confirmar Recebimento</h2>
-              <button onClick={() => { setShowPayModal(false); setPayTarget(null); setPayMethod(''); }} className="rounded p-1 text-gray-400 hover:bg-gray-100">
+          <div className="mx-4 w-full max-w-md rounded-xl bg-white dark:bg-gray-900 shadow-2xl">
+            <div className="flex items-center justify-between border-b dark:border-gray-700 px-6 py-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Confirmar Recebimento</h2>
+              <button onClick={() => { setShowPayModal(false); setPayTarget(null); setPayMethod(''); }} className="rounded p-1 text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800">
                 <X className="h-5 w-5" />
               </button>
             </div>
             <div className="px-6 py-4 space-y-4">
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="text-sm text-gray-500">Transação</p>
-                <p className="font-medium text-gray-900">{payTarget.description}</p>
+              <div className="rounded-lg bg-gray-50 dark:bg-gray-800 p-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400">Transação</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{payTarget.description}</p>
                 <p className="mt-1 text-lg font-bold text-green-600">{formatCurrency(Number(payTarget.totalAmount))}</p>
-                {payTarget.patient?.name && <p className="text-sm text-gray-500 mt-1">Paciente: {payTarget.patient.name}</p>}
+                {payTarget.patient?.name && <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Paciente: {payTarget.patient.name}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Forma de Pagamento</label>
-                <select value={payMethod} onChange={(e) => setPayMethod(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Forma de Pagamento</label>
+                <select value={payMethod} onChange={(e) => setPayMethod(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="">Manter atual</option>
                   <option value="CASH">Dinheiro</option>
                   <option value="CREDIT_CARD">Cartão de Crédito</option>
@@ -570,17 +570,17 @@ export function BillingPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Profissional Responsável</label>
-                <select value={payProfessionalId} onChange={(e) => setPayProfessionalId(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:border-dental-500 focus:outline-none focus:ring-1 focus:ring-dental-500">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-400">Profissional Responsável</label>
+                <select value={payProfessionalId} onChange={(e) => setPayProfessionalId(e.target.value)} className="mt-1 w-full rounded-lg border border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 px-3 py-2 text-sm focus:border-dental-500 dark:focus:border-primary focus:outline-none focus:ring-1 focus:ring-dental-500 dark:focus:ring-primary">
                   <option value="">Nenhum</option>
                   {professionalsData?.data?.map((p: any) => (
                     <option key={p.id} value={p.id}>{p.name}{p.specialty ? ` - ${p.specialty}` : ''}</option>
                   ))}
                 </select>
-                <p className="mt-1 text-xs text-gray-400">Necessário para cálculo de comissão</p>
+                <p className="mt-1 text-xs text-gray-400 dark:text-gray-500">Necessário para cálculo de comissão</p>
               </div>
-              <div className="flex justify-end gap-3 border-t pt-4">
-                <button onClick={() => { setShowPayModal(false); setPayTarget(null); setPayMethod(''); }} className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+              <div className="flex justify-end gap-3 border-t dark:border-gray-700 pt-4">
+                <button onClick={() => { setShowPayModal(false); setPayTarget(null); setPayMethod(''); }} className="rounded-lg border border-gray-200 dark:border-gray-700 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800">
                   Cancelar
                 </button>
                 <button onClick={handlePayConfirm} disabled={payMutation.isPending} className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700 disabled:opacity-50">

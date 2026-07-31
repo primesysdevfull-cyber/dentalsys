@@ -47,6 +47,10 @@
     --input: 215 28% 17%;
     --ring: 217 91% 60%;
   }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
 }
 
 @layer base {
@@ -54,8 +58,20 @@
     @apply border-border;
   }
   body {
-    @apply bg-[#F9FAFB] text-[#1F2937];
+    @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  input[type='text'],
+  input[type='tel'],
+  input[type='search'],
+  textarea {
+    text-transform: uppercase;
+  }
+
+  .dark body,
+  body.dark {
+    @apply bg-background text-foreground;
   }
 }
 

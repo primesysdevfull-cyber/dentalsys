@@ -10,24 +10,24 @@ import {
 
 const statusColor = (status: string) => {
   const colors: Record<string, string> = {
-    PROPOSED: 'bg-gray-100 text-gray-600',
+    PROPOSED: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
     ACCEPTED: 'bg-blue-100 text-blue-700',
     IN_PROGRESS: 'bg-yellow-100 text-yellow-700',
     COMPLETED: 'bg-green-100 text-green-700',
     CANCELLED: 'bg-red-100 text-red-700',
   };
-  return colors[status] || 'bg-gray-100 text-gray-600';
+  return colors[status] || 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400';
 };
 
 const statusDot = (status: string) => {
   const colors: Record<string, string> = {
-    PROPOSED: 'bg-gray-400',
+    PROPOSED: 'bg-gray-400 dark:bg-gray-500',
     ACCEPTED: 'bg-blue-500',
     IN_PROGRESS: 'bg-yellow-500',
     COMPLETED: 'bg-green-500',
     CANCELLED: 'bg-red-500',
   };
-  return colors[status] || 'bg-gray-400';
+  return colors[status] || 'bg-gray-400 dark:bg-gray-500';
 };
 
 export function PatientDetailPage() {
@@ -83,7 +83,7 @@ export function PatientDetailPage() {
       </div>
 
       {/* Dados do Paciente */}
-      <div className="rounded-xl bg-white p-6 shadow-card">
+      <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
         <div className="flex flex-wrap items-start gap-5">
           <div className="h-16 w-16 rounded-full bg-primary-100 flex items-center justify-center text-2xl font-bold text-primary-700 shrink-0">
             {patient.name.charAt(0).toUpperCase()}
@@ -124,7 +124,7 @@ export function PatientDetailPage() {
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
           {/* Tratamentos */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <ClipboardList className="h-5 w-5 text-primary-600" />
@@ -181,7 +181,7 @@ export function PatientDetailPage() {
           </div>
 
           {/* Prontuário */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-4">
               <FileText className="h-5 w-5 text-primary-600" />
               <h2 className="text-base font-semibold text-[#1F2937]">Prontuário</h2>
@@ -213,7 +213,7 @@ export function PatientDetailPage() {
           </div>
 
           {/* Histórico de Agendamentos */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-4">
               <Calendar className="h-5 w-5 text-primary-600" />
               <h2 className="text-base font-semibold text-[#1F2937]">Histórico de Consultas</h2>
@@ -250,7 +250,7 @@ export function PatientDetailPage() {
         {/* Sidebar direita */}
         <div className="space-y-5">
           {/* Resumo Financeiro */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-4">
               <DollarSign className="h-5 w-5 text-success-500" />
               <h2 className="text-base font-semibold text-[#1F2937]">Resumo Financeiro</h2>
@@ -276,7 +276,7 @@ export function PatientDetailPage() {
           </div>
 
           {/* Odontograma */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-3">
               <Activity className="h-5 w-5 text-primary-600" />
               <h2 className="text-base font-semibold text-[#1F2937]">Odontograma</h2>
@@ -291,7 +291,7 @@ export function PatientDetailPage() {
 
           {/* Histórico Médico */}
           {patient.medicalHistory && (
-            <div className="rounded-xl bg-white p-6 shadow-card">
+            <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
               <div className="flex items-center gap-2 mb-3">
                 <Heart className="h-5 w-5 text-red-500" />
                 <h2 className="text-base font-semibold text-[#1F2937]">Histórico Médico</h2>
@@ -314,7 +314,7 @@ export function PatientDetailPage() {
           )}
 
           {/* Anamnese */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-3">
               <ClipboardList className="h-5 w-5 text-primary-600" />
               <h2 className="text-base font-semibold text-[#1F2937]">Anamnese</h2>
@@ -325,7 +325,7 @@ export function PatientDetailPage() {
           </div>
 
           {/* Endereço */}
-          <div className="rounded-xl bg-white p-6 shadow-card">
+          <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
             <div className="flex items-center gap-2 mb-3">
               <MapPin className="h-5 w-5 text-[#6B7280]" />
               <h2 className="text-base font-semibold text-[#1F2937]">Endereço</h2>
@@ -343,7 +343,7 @@ export function PatientDetailPage() {
 
           {/* Contato de Emergência */}
           {patient.emergencyContactName && (
-            <div className="rounded-xl bg-white p-6 shadow-card">
+            <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
               <div className="flex items-center gap-2 mb-3">
                 <AlertCircle className="h-5 w-5 text-warning-500" />
                 <h2 className="text-base font-semibold text-[#1F2937]">Contato de Emergência</h2>
@@ -356,7 +356,7 @@ export function PatientDetailPage() {
 
           {/* Responsável (menor de idade) */}
           {patient.legalGuardianName && (
-            <div className="rounded-xl bg-white p-6 shadow-card">
+            <div className="rounded-xl bg-white dark:bg-gray-900 p-6 shadow-card">
               <div className="flex items-center gap-2 mb-3">
                 <Baby className="h-5 w-5 text-primary-600" />
                 <h2 className="text-base font-semibold text-[#1F2937]">Responsável</h2>

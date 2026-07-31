@@ -48,6 +48,10 @@ export function formatCPF(cpf: string): string {
   return cleaned.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
 }
 
+export function maskPhone(value: string): string {
+  return value.replace(/\D/g, '').slice(0, 10);
+}
+
 export function maskCPF(value: string): string {
   const digits = value.replace(/\D/g, '').slice(0, 11);
   return digits
